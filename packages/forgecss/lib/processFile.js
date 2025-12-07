@@ -1,5 +1,5 @@
 import swc from "@swc/core";
-import { readFile, writeFile } from "fs/promises";
+import { readFile } from "fs/promises";
 import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
 
