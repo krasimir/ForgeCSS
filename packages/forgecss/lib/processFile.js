@@ -3,7 +3,7 @@ import { readFile } from "fs/promises";
 import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
 
-const FUNC_NAME = 'mq';
+const FUNC_NAME = 'fx';
 const DECLARATIONS = {};
 
 const { parse } = swc;

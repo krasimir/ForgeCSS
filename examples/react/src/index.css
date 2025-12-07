@@ -1,3 +1,5 @@
+@import "./forgecss.css";
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -65,4 +67,16 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+.p2 {
+  padding: 2rem;
+}
+.p1 {
+  padding: 1rem;
+}
+.bg-dark {
+  background-color: #121212;
+}
+.bg-light {
+  background-color: #f9f9f9;
 }
