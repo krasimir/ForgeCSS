@@ -2,6 +2,9 @@ import getAllFiles from "./lib/getAllFiles.js";
 import { extractStyles } from "./lib/styles.js";
 import { extractDeclarations } from "./lib/processFile.js";
 import { generateOutputCSS } from "./lib/generator.js";
+import forgeCSSExpressionTransformer from './client/fx.js';
+
+export const fx = forgeCSSExpressionTransformer;
 
 const DEFAULT_OPTIONS = {
   styles: {
