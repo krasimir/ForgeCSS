@@ -55,6 +55,11 @@ export async function extractDeclarations(filePath) {
     console.error(`forgecss: error processing file ${filePath}: ${err}`);
   }
 }
+export function deleteDeclarations(filePath) {
+  if (DECLARATIONS[filePath]) {
+    delete DECLARATIONS[filePath];
+  }
+}
 function pushToDeclarations(filePath, classesString = "") {
   if (classesString) {
     classesString.split(" ").forEach((part) => {
@@ -71,7 +76,6 @@ function pushToDeclarations(filePath, classesString = "") {
     });
   }
 }
-
 function traverseNode(node, visitors, stack = []) {
   if (!node || typeof node.type !== "string") {
     return;
@@ -108,7 +112,6 @@ function traverseNode(node, visitors, stack = []) {
     }
   }
 }
-
 export function getDeclarations() {
   return DECLARATIONS;
 }

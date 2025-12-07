@@ -26,18 +26,16 @@ async function loadConfig(configPath) {
   const mod = await import(fileUrl);
   return mod.default ?? mod; // support both default and named export
 }
-async function runForgeCSS() {
+async function runForgeCSS(lookAtPath = null) {
   if (!config) {
+    // The very first run
     config = await loadConfig(options.config);
     if (options.watch) {
-      const watcher = chokidar.watch([
-        config.styles.sourceDir,
-        config.ui.sourceDir
-      ], {
+      const watcher = chokidar.watch([config.styles.sourceDir, config.ui.sourceDir], {
         persistent: true,
         ignoreInitial: true,
         ignored: (p, stats) => {
-          if (path.resolve(p) === path.resolve(config.output)){ 
+          if (path.resolve(p) === path.resolve(config.output)) {
             return true;
           }
           return false;
@@ -47,14 +45,18 @@ async function runForgeCSS() {
         if (options.verbose) {
           console.log(`forgecss: Detected change in ${filePath}`);
         }
-        runForgeCSS();
+        runForgeCSS(filePath);
       });
       if (options.verbose) {
         console.log("forgecss: Watch mode enabled. Listening for file changes...");
       }
     }
   }
-  ForgeCSS(config).parse();
+  ForgeCSS(config).parse(lookAtPath).then(() => {
+    if (options.verbose) {
+      console.log(`forgecss: CSS generation at ${config.output} completed.`);
+    }
+  });
 }
 
 runForgeCSS();

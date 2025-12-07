@@ -19,5 +19,5 @@ export type ForgeCSSOptions = {
 };
 
 export default function forgecss(options?: ForgeCSSOptions): {
-  parse: () => Promise<void>;
+  parse: (filePathToSpecificFile?: string) => Promise<void>;
 };

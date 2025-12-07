@@ -5,7 +5,6 @@ import { createMediaStyle } from "./styles.js";
 export async function generateOutputCSS(config) {
   const cache = {};
   const declarations = getDeclarations();
-  console.log(declarations);
   Object.keys(declarations).map((file) => {
     Object.keys(declarations[file]).forEach(async (label) => {
       try {

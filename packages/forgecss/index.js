@@ -1,10 +1,7 @@
 import getAllFiles from "./lib/getAllFiles.js";
 import { extractStyles } from "./lib/styles.js";
-import { extractDeclarations } from "./lib/processFile.js";
+import { deleteDeclarations, extractDeclarations, getDeclarations } from "./lib/processFile.js";
 import { generateOutputCSS } from "./lib/generator.js";
-import forgeCSSExpressionTransformer from './client/fx.js';
-
-export const fx = forgeCSSExpressionTransformer;
 
 const DEFAULT_OPTIONS = {
   styles: {
@@ -41,21 +38,34 @@ export default function forgecss(options = { styles: {}, ui: {}, mapping: {}, ou
   }
 
   return {
-    async parse() {
+    async parse(lookAtPath = null) {
       // fetching the styles
       try {
-        let files = await getAllFiles(config.styles.sourceDir, config.styles.match);
-        for (let file of files) {
-          await extractStyles(file);
+        if (lookAtPath) {
+          if (config.styles.match.includes(lookAtPath.split('.').pop().toLowerCase())) {
+            await extractStyles(lookAtPath);
+          }
+        } else {
+          let files = await getAllFiles(config.styles.sourceDir, config.styles.match);
+          for (let file of files) {
+            await extractStyles(file);
+          }
         }
       } catch (err) {
         console.error(`forgecss: error extracting styles: ${err}`);
       }
       // fetching the declarations
       try {
-        let files = await getAllFiles(config.ui.sourceDir, config.ui.match);
-        for (let file of files) {
-          await extractDeclarations(file);
+        if (lookAtPath) {
+          if (config.ui.match.includes(lookAtPath.split('.').pop().toLowerCase())) {
+            deleteDeclarations(lookAtPath);
+            await extractDeclarations(lookAtPath);
+          }
+        } else {
+          let files = await getAllFiles(config.ui.sourceDir, config.ui.match);
+          for (let file of files) {
+            await extractDeclarations(file);
+          }
         }
       } catch(err) {
         console.error(`forgecss: error extracting declarations: ${err}`);

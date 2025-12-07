@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "_dev": "concurrently \"vite\" \"forgecss\"",
+    "_dev": "concurrently \"vite\" \"forgecss --watch --verbose\"",
     "dev": "concurrently \"vite\" \"node ../../packages/forgecss/cli.js --watch --verbose\"",
-    "build": "node ../../packages/forgecss/cli.js && tsc -b && vite build",
+    "build": "forgecss --verbose && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "concurrently": "^9.2.1",
-    "forgecss": "^0.1.0",
+    "forgecss": "^0.1.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
