@@ -12,6 +12,14 @@ export function getPath(p) {
   return path.join(__dirname, p);
 }
 export const expect = {
+  toBe(value, expected) {
+    const result = value === expected;
+    if (!result) {
+      console.error("Expected:\n", expected);
+      console.error("Received:\n", value);
+    }
+    return result;
+  },
   toEqualFile(str, file) {
     const expected = fs.readFileSync(getPath(file), "utf-8");
     const result = str === expected;

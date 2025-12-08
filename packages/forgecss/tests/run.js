@@ -1,9 +1,13 @@
+#!/usr/bin/env node
+
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { getPath } from "./helpers.js";
 
-function getCases(dir = getPath('/cases')) {
+const spec = (process.argv[2] || '').split('=')[1] || null;
+
+function getCases(dir = getPath("/cases")) {
   const cases = [];
   const files = fs.readdirSync(dir);
 
@@ -30,18 +34,20 @@ async function importTest(configPath) {
 
 (async () => {
   const cases = getCases();
-  for(let testFile of cases) {
+  for (let testFile of cases) {
+    if (spec && !testFile.match(new RegExp(spec, 'i'))) {
+      continue;
+    }
     const test = await importTest(testFile);
-    const testName = testFile.replace(process.cwd(), '');
+    const testName = testFile.replace(process.cwd(), "");
     try {
       if (await test()) {
         console.log(`✅ ${testName}`);
       } else {
         console.error(`❌ ${testName}`);
       }
-    } catch(err) {
+    } catch (err) {
       console.error(`❌ ${testName}`, err);
     }
   }
 })();
-

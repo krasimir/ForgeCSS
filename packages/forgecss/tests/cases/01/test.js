@@ -7,7 +7,10 @@ export default async function test() {
     mapping: {
       queries: {
         desktop: {
-          query: "(min-width: 1024px)"
+          query: "(min-width: 1024px)",
+        },
+        mobile: {
+          query: "(max-width: 1023px)",
         }
       }
     }

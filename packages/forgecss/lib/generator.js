@@ -12,7 +12,7 @@ export async function generateOutputCSS(config) {
       try {
         createMediaStyle(config, label, usages[file][label], cache);
       } catch (err) {
-        console.error(`Error generating media query for label ${label} (found in file ${file}): ${err}`);
+        console.error(`forgecss: Error generating media query for label "${label}" (found in file ${file.replace(process.cwd(), '')}): ${err}`);
       }
     });
   });
@@ -26,9 +26,8 @@ export async function generateOutputCSS(config) {
 }
 export function createMediaStyle(config, label, selectors, cache) {
   if (!config.mapping.queries[label]) {
-    throw new Error(
-      `Unknown media query label: ${label}. Check app-fe/wwwroot/scripts/lib/generateMediaQueries.js for available mappings.`
-    );
+    console.warn(`forgecss: unknown media query label "${label}". Check your configuration for the available mappings.`);
+    return;
   }
   if (!cache[label]) {
     cache[label] = {
@@ -49,7 +48,7 @@ export function createMediaStyle(config, label, selectors, cache) {
     const rule = postcss.rule({ selector: prefixedSelector });
     const decls = getStylesByClassName(selector);
     if (decls.length === 0) {
-      console.warn(`Warning: No styles found for class .${selector} used in media query ${label}`);
+      console.warn(`forgecss: no styles found for class ".${selector}" used in media query "${label}"`);
       return;
     }
     decls.forEach((d) => {

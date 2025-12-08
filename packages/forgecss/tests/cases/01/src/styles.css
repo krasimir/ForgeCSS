@@ -1,6 +1,18 @@
+.inline {
+  display: inline;
+}
 .mt1 {
   margin-top: 0.25rem;
 }
 .mt2 {
   margin-top: 0.5rem;
+}
+.fz2 {
+  font-size: 2rem;
+}
+.no-used {
+  color: yellow;
+}
+.red {
+  color: red;
 }

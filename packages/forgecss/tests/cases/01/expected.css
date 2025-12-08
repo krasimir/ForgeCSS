@@ -6,3 +6,11 @@
         margin-top: 0.25rem
     }
 }
+@media all and ((max-width: 1023px)) {
+    .mobile_fz2 {
+        font-size: 2rem
+    }
+    .mobile_red {
+        color: red
+    }
+}

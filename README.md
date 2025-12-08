@@ -14,6 +14,7 @@ To run the tests:
 
 ```
 > npm run tests
+> npm run tests -- --spec=02
 ```
 
 in `/packages/forgetcss`.
