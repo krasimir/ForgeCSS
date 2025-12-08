@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "_dev": "concurrently \"vite\" \"forgecss --watch --verbose\"",
-    "dev": "concurrently \"vite\" \"node ../../packages/forgecss/cli.js --watch --verbose\"",
+    "dev": "concurrently \"vite\" \"node ../../packages/forgecss/cli.js -w -v\"",
     "build": "forgecss --verbose && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -4,18 +4,19 @@ import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
 
 const FUNC_NAME = 'fx';
-const DECLARATIONS = {};
+const USAGES = {};
 
 const { parse } = swc;
 
-export async function extractDeclarations(filePath) {
-  const extension = filePath.split('.').pop().toLowerCase();
+export async function findUsages(filePath) {
   try {
-    if (DECLARATIONS[filePath]) {
+    if (USAGES[filePath]) {
+      // already processed
       return;
     }
-    DECLARATIONS[filePath] = {};
+    USAGES[filePath] = {};
     const content = await readFile(filePath, "utf-8");
+    const extension = filePath.split('.').pop().toLowerCase();
 
     // HTML
     if (extension === "html") {
@@ -34,7 +35,7 @@ export async function extractDeclarations(filePath) {
       tsx: true,
       decorators: false
     });
-    traverseNode(ast, {
+    traverseASTNode(ast, {
       JSXExpressionContainer(node) {
         if (node?.expression?.callee?.value === FUNC_NAME && node?.expression?.arguments) {
           if (node?.expression?.arguments[0]) {
@@ -55,9 +56,9 @@ export async function extractDeclarations(filePath) {
     console.error(`forgecss: error processing file ${filePath}: ${err}`);
   }
 }
-export function deleteDeclarations(filePath) {
-  if (DECLARATIONS[filePath]) {
-    delete DECLARATIONS[filePath];
+export function invalidateUsageCache(filePath) {
+  if (USAGES[filePath]) {
+    delete USAGES[filePath];
   }
 }
 function pushToDeclarations(filePath, classesString = "") {
@@ -67,16 +68,16 @@ function pushToDeclarations(filePath, classesString = "") {
         let [label, classes] = part.split(":");
         classes = classes.split(",");
         classes.forEach((cls) => {
-          if (!DECLARATIONS[filePath][label]) {
-            DECLARATIONS[filePath][label] = [];
+          if (!USAGES[filePath][label]) {
+            USAGES[filePath][label] = [];
           }
-          DECLARATIONS[filePath][label].push(cls);
+          USAGES[filePath][label].push(cls);
         });
       }
     });
   }
 }
-function traverseNode(node, visitors, stack = []) {
+function traverseASTNode(node, visitors, stack = []) {
   if (!node || typeof node.type !== "string") {
     return;
   }
@@ -95,23 +96,23 @@ function traverseNode(node, visitors, stack = []) {
       child.forEach((c) => {
         if (c) {
           if (typeof c.type === "string") {
-            traverseNode(c, visitors, [node].concat(stack));
+            traverseASTNode(c, visitors, [node].concat(stack));
           } else if (c?.expression && typeof c.expression.type === "string") {
-            traverseNode(c.expression, visitors, [node].concat(stack));
+            traverseASTNode(c.expression, visitors, [node].concat(stack));
           } else if (c?.callee && typeof c.callee.type === "string") {
-            traverseNode(c.callee, visitors, [node].concat(stack));
+            traverseASTNode(c.callee, visitors, [node].concat(stack));
           } else if (c?.left && typeof c.left.type === "string") {
-            traverseNode(c.left, visitors, [node].concat(stack));
+            traverseASTNode(c.left, visitors, [node].concat(stack));
           } else if (c?.right && typeof c.right.type === "string") {
-            traverseNode(c.right, visitors, [node].concat(stack));
+            traverseASTNode(c.right, visitors, [node].concat(stack));
           }
         }
       });
     } else if (child && typeof child.type === "string") {
-      traverseNode(child, visitors, [node].concat(stack));
+      traverseASTNode(child, visitors, [node].concat(stack));
     }
   }
 }
-export function getDeclarations() {
-  return DECLARATIONS;
+export function getUsages() {
+  return USAGES;
 }

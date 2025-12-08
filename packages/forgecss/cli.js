@@ -7,9 +7,9 @@ import { program } from "commander";
 import ForgeCSS from './index.js';
 import chokidar from "chokidar";
 
-program.option("--config", "Path to forgecss config file", process.cwd() + "/forgecss.config.js");
-program.option("--watch", "Enable watch mode", false);
-program.option("--verbose", "Enable watch mode", false);
+program.option("-c, --config <string>,", "Path to forgecss config file", process.cwd() + "/forgecss.config.js");
+program.option("-w, --watch", "Enable watch mode", false);
+program.option("-v, --verbose", "Enable watch mode", false);
 program.parse();
 
 const options = program.opts();
@@ -24,22 +24,20 @@ async function loadConfig(configPath) {
   const fileUrl = pathToFileURL(abs).href;
 
   const mod = await import(fileUrl);
-  return mod.default ?? mod; // support both default and named export
+  return mod.default ?? mod;
 }
 async function runForgeCSS(lookAtPath = null) {
   if (!config) {
     // The very first run
     config = await loadConfig(options.config);
     if (options.watch) {
+      if (!config.source) {
+        throw new Error('forgecss: missing "source" in configuration.');
+      }
       const watcher = chokidar.watch(config.source, {
         persistent: true,
         ignoreInitial: true,
-        ignored: (p, stats) => {
-          if (path.resolve(p) === path.resolve(config.output)) {
-            return true;
-          }
-          return false;
-        }
+        ignored: (p, stats) => path.resolve(p) === path.resolve(config.output)
       });
       watcher.on("change", async (filePath) => {
         if (options.verbose) {
@@ -52,11 +50,10 @@ async function runForgeCSS(lookAtPath = null) {
       }
     }
   }
-  ForgeCSS(config).parse(lookAtPath).then(() => {
-    if (options.verbose) {
-      console.log(`forgecss: CSS generation at ${config.output} completed.`);
-    }
-  });
+  await ForgeCSS(config).parse(lookAtPath);
+  if (options.verbose) {
+    console.log(`forgecss: CSS generation at ${config.output} completed.`);
+  }
 }
 
 runForgeCSS();

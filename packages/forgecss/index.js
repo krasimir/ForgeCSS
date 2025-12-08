@@ -1,43 +1,43 @@
 import getAllFiles from "./lib/getAllFiles.js";
-import { extractStyles } from "./lib/styles.js";
-import { deleteDeclarations, extractDeclarations } from "./lib/processFile.js";
+import { extractStyles } from "./lib/inventory.js";
+import { invalidateUsageCache, findUsages } from "./lib/processor.js";
 import { generateOutputCSS } from "./lib/generator.js";
 
 const DEFAULT_OPTIONS = {
   source: null,
-  stylesMatch: ['css', 'less', 'scss'],
-  declarationsMatch: ['html', 'jsx', 'tsx'],
-  declarationsMatchAttributes: ['class', 'className'],
+  inventoryFiles: ["css", "less", "scss"],
+  usageFiles: ["html", "jsx", "tsx"],
+  usageAttributes: ["class", "className"],
   mapping: {
     queries: {}
   },
   output: null
 };
 
-export default function forgecss(options = { source: null, output: null, mapping: {} }) {
+export default function ForgeCSS(options = { source: null, output: null, mapping: {} }) {
   const config = { ...DEFAULT_OPTIONS };
 
-  config.source = options.source || DEFAULT_OPTIONS.source;
-  config.mapping = Object.assign({}, DEFAULT_OPTIONS.mapping, options.mapping || {});
-  config.output = options.output || DEFAULT_OPTIONS.output;
+  config.source = options.source ?? DEFAULT_OPTIONS.source;
+  config.mapping = Object.assign({}, DEFAULT_OPTIONS.mapping, options.mapping ?? {});
+  config.output = options.output ?? DEFAULT_OPTIONS.output;
 
   if (!config.source) {
-    throw new Error('forgecss: "source" option is required.');
+    throw new Error('forgecss: missing "source" in configuration.');
   }
   if (!config.output) {
-    throw new Error('forgecss: "output" option is required.');
+    throw new Error('forgecss: missing "output" in configuration.');
   }
 
   return {
     async parse(lookAtPath = null) {
-      // fetching the styles
+      // filling the inventory
       try {
         if (lookAtPath) {
-          if (config.stylesMatch.includes(lookAtPath.split(".").pop().toLowerCase())) {
+          if (config.inventoryFiles.includes(lookAtPath.split(".").pop().toLowerCase())) {
             await extractStyles(lookAtPath);
           }
         } else {
-          let files = await getAllFiles(config.source, config.stylesMatch);
+          let files = await getAllFiles(config.source, config.inventoryFiles);
           for (let file of files) {
             await extractStyles(file);
           }
@@ -45,17 +45,17 @@ export default function forgecss(options = { source: null, output: null, mapping
       } catch (err) {
         console.error(`forgecss: error extracting styles: ${err}`);
       }
-      // fetching the declarations
+      // finding the usages
       try {
         if (lookAtPath) {
-          if (config.declarationsMatch.includes(lookAtPath.split(".").pop().toLowerCase())) {
-            deleteDeclarations(lookAtPath);
-            await extractDeclarations(lookAtPath);
+          if (config.usageFiles.includes(lookAtPath.split(".").pop().toLowerCase())) {
+            invalidateUsageCache(lookAtPath);
+            await findUsages(lookAtPath);
           }
         } else {
-          let files = await getAllFiles(config.source, config.declarationsMatch);
+          let files = await getAllFiles(config.source, config.usageFiles);
           for (let file of files) {
-            await extractDeclarations(file);
+            await findUsages(file);
           }
         }
       } catch (err) {

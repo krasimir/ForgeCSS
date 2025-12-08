@@ -1,8 +1,8 @@
 export type ForgeCSSOptions = {
   source: string;
-  stylesMatch?: string[];
-  declarationsMatch?: string[];
-  declarationsMatchAttributes?: string[];
+  inventoryFiles?: string[];
+  usageFiles?: string[];
+  usageAttributes?: string[];
   mapping: {
     queries: {
       [key: string]: {
@@ -13,6 +13,8 @@ export type ForgeCSSOptions = {
   output: string;
 };
 
-export default function forgecss(options?: ForgeCSSOptions): {
+export type ForgeInstance = {
   parse: (filePathToSpecificFile?: string) => Promise<void>;
 };
+
+export default function forgecss(options?: ForgeCSSOptions): ForgeInstance;
