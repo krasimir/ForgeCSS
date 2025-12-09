@@ -1,20 +1,35 @@
-import ForgeCSS from '../../../index.js';
-import { getPath, expect } from '../../helpers.js';
+import { findUsages, getUsages, invalidateUsageCache } from "../../../lib/processor.js";
+import { getPath, expect } from "../../helpers.js";
 
 export default async function test() {
-  const forgecss = ForgeCSS({
-    source: getPath("/cases/01/src"),
-    mapping: {
-      queries: {
-        desktop: {
-          query: "(min-width: 1024px)",
-        },
-        mobile: {
-          query: "(max-width: 1023px)",
+  const cases = [
+    {
+      file: getPath("/cases/01/src/page.html"),
+      expected: {
+        [getPath("/cases/01/src/page.html")]: {
+          desktop: ["mt2"],
+          mobile: ["fz2", "red"],
+          tablet: ["mt3", "blue"]
+        }
+      }
+    },
+    {
+      file: getPath("/cases/01/src/page.tsx"),
+      expected: {
+        [getPath("/cases/01/src/page.tsx")]: {
+          desktop: ["mt1"],
+          mobile: ["my1"]
         }
       }
     }
-  });
-  const result = await forgecss.parse();
-  return expect.toEqualFile(result, "/cases/01/expected.css");
+  ];
+  for (let i=0; i<cases.length; i++) {
+    const { file, expected } = cases[i];
+    invalidateUsageCache();
+    await findUsages(file);
+    if (!expect.deepEqual(getUsages(), expected)) {
+      return false;
+    }
+  }
+  return true;
 }

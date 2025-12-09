@@ -4,7 +4,7 @@ import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
 
 const FUNC_NAME = 'fx';
-const USAGES = {};
+let USAGES = {};
 
 const { parse } = swc;
 
@@ -23,7 +23,7 @@ export async function findUsages(filePath) {
       const ast = fromHtml(content);
       visit(ast, "element", (node) => {
         if (node.properties.className) {
-          pushToDeclarations(filePath, node.properties.className.join(' '));
+          storeUsage(filePath, node.properties.className.join(' '));
         }
       });
       return;
@@ -47,21 +47,25 @@ export async function findUsages(filePath) {
                 value += elem?.cooked || "";
               });
             }
-            pushToDeclarations(filePath, value);
+            storeUsage(filePath, value);
           }
         }
       }
     });
   } catch (err) {
-    console.error(`forgecss: error processing file ${filePath}: ${err}`);
+    console.error(`forgecss: error processing file ${filePath.replace(process.cwd(), '')}`, err);
   }
 }
 export function invalidateUsageCache(filePath) {
+  if (!filePath) {
+    USAGES = {};
+    return;
+  }
   if (USAGES[filePath]) {
     delete USAGES[filePath];
   }
 }
-function pushToDeclarations(filePath, classesString = "") {
+function storeUsage(filePath, classesString = "") {
   if (classesString) {
     classesString.split(" ").forEach((part) => {
       if (part.indexOf(":") > -1) {

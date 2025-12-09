@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { getPath } from "./helpers.js";
+import { invalidateUsageCache } from "../lib/processor.js";
 
 const spec = (process.argv[2] || '').split('=')[1] || null;
 
@@ -38,6 +39,7 @@ async function importTest(configPath) {
     if (spec && !testFile.match(new RegExp(spec, 'i'))) {
       continue;
     }
+    invalidateUsageCache();
     const test = await importTest(testFile);
     const testName = testFile.replace(process.cwd(), "");
     try {
