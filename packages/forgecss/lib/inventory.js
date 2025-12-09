@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import postcss from "postcss";
 import safeParser from "postcss-safe-parser";
 
-const INVENTORY = {};
+let INVENTORY = {};
 
 export async function extractStyles(filePath) {
   const content = await readFile(filePath, 'utf-8');
@@ -20,4 +20,7 @@ export function getStylesByClassName(selector) {
     });
   });
   return decls;
+}
+export function invalidateInvetory() {
+  INVENTORY = {};
 }

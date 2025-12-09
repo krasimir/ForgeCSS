@@ -24,8 +24,8 @@ export const expect = {
     const expected = fs.readFileSync(getPath(file), "utf-8");
     const result = str === expected;
     if (!result) {
-      console.error("Expected:\n", expected);
-      console.error("Received:\n", str);
+      console.error("\nExpected:\n", expected);
+      console.error("\nReceived:\n", str);
     }
     return result;
   },
@@ -61,8 +61,8 @@ export const expect = {
     }
     const result = deepEqual(actual, expected);
     if (!result) {
-      console.error("Expected:\n", JSON.stringify(expected, null, 2));
-      console.error("Actual:\n", JSON.stringify(actual, null, 2));
+      console.error("\nExpected:\n", JSON.stringify(expected, null, 2));
+      console.error("\nActual:\n", JSON.stringify(actual, null, 2));
     }
     return result;
   }

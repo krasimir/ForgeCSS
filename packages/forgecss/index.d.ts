@@ -3,8 +3,8 @@ export type ForgeCSSOptions = {
   inventoryFiles?: string[];
   usageFiles?: string[];
   usageAttributes?: string[];
-  mapping: {
-    queries: {
+  mapping?: {
+    queries?: {
       [key: string]: {
         query: string;
       };
@@ -17,4 +17,6 @@ export type ForgeInstance = {
   parse: (filePathToSpecificFile?: string) => Promise<void>;
 };
 
-export default function forgecss(options?: ForgeCSSOptions): ForgeInstance;
+declare function ForgeCSS(options?: ForgeCSSOptions): ForgeInstance;
+
+export default ForgeCSS;

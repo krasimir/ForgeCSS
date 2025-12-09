@@ -2,6 +2,7 @@ import getAllFiles from "./lib/getAllFiles.js";
 import { extractStyles } from "./lib/inventory.js";
 import { invalidateUsageCache, findUsages } from "./lib/processor.js";
 import { generateOutputCSS } from "./lib/generator.js";
+import stateTransformers from './lib/transformers/state.js'
 
 const DEFAULT_OPTIONS = {
   source: null,
@@ -9,16 +10,20 @@ const DEFAULT_OPTIONS = {
   usageFiles: ["html", "jsx", "tsx"],
   usageAttributes: ["class", "className"],
   mapping: {
-    queries: {}
+    queries: {},
+    state: stateTransformers
   },
   output: null
 };
 
-export default function ForgeCSS(options = { source: null, output: null, mapping: {} }) {
+export default function ForgeCSS(options) {
   const config = { ...DEFAULT_OPTIONS };
 
   config.source = options.source ?? DEFAULT_OPTIONS.source;
-  config.mapping = Object.assign({}, DEFAULT_OPTIONS.mapping, options.mapping ?? {});
+  config.mapping = {
+    queries: Object.assign({}, DEFAULT_OPTIONS.mapping.queries, options?.mapping?.queries ?? {}),
+    state: Object.assign({}, DEFAULT_OPTIONS.mapping.state, options?.mapping?.state ?? {})
+  };
   config.output = options.output ?? DEFAULT_OPTIONS.output;
 
   if (!config.source) {

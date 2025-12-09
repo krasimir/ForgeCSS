@@ -14,3 +14,8 @@
         color: red
     }
 }
+@media all and ((orientation: portrait)) {
+    .portrait_pt2 {
+        padding-top: 0.5rem
+    }
+}

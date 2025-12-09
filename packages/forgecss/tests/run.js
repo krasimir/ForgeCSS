@@ -5,6 +5,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { getPath } from "./helpers.js";
 import { invalidateUsageCache } from "../lib/processor.js";
+import { invalidateInvetory } from "../lib/inventory.js";
 
 const spec = (process.argv[2] || '').split('=')[1] || null;
 
@@ -40,8 +41,10 @@ async function importTest(configPath) {
       continue;
     }
     invalidateUsageCache();
+    invalidateInvetory();
     const test = await importTest(testFile);
     const testName = testFile.replace(process.cwd(), "");
+    console.log("----- " + testName + " -----");
     try {
       if (await test()) {
         console.log(`✅ ${testName}`);
