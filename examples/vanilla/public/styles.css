@@ -37,3 +37,7 @@ main {
 .fz-sm {
   font-size: 0.8em;
 }
+.blue {
+  color: #0c5bb0;
+  text-decoration: underline;
+}
