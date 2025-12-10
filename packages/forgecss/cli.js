@@ -55,9 +55,9 @@ async function runForgeCSS(lookAtPath = null) {
     }
   }
   if (lookAtPath) {
-    instance.parseFile(lookAtPath, config.output);
+    instance.parseFile({ file: lookAtPath, output: config.output });
   } else {
-    instance.parseDirectory(config.dir, config.output);
+    instance.parseDirectory({ dir: config.dir, output: config.output });
   }
   if (options.verbose) {
     console.log(`forgecss: ${config.output} generated successfully.`);

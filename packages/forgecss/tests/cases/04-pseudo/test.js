@@ -16,7 +16,7 @@ const CASES = [
 
 export default async function test() {
   for (let testCase of CASES) {
-    const css = await ForgeCSS().parse(testCase.styles, testCase.usage);
+    const css = await ForgeCSS().parse({ css: testCase.styles, html: testCase.usage });
     if (!expect.toBe(minifyCSS(css), testCase.expected)) {
       return false;
     }

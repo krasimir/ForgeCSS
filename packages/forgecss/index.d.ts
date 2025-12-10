@@ -10,9 +10,9 @@ export type ForgeCSSOptions = {
 };
 
 export type ForgeInstance = {
-  parseDirectory: (directoryPath: string, outputFile?: string) => Promise<string>;
-  parseFile: (filePath: string, outputFile?: string) => Promise<string>;
-  parse: (css: string, html: string, outputFile?: string) => Promise<string>;
+  parseDirectory: (options: { dir: string; output?: string }) => Promise<string>;
+  parseFile: (options: { file: string; output?: string }) => Promise<string>;
+  parse: (options: { css: string; html?: string; jsx?: string; output?: string }) => Promise<string>;
 };
 
 declare function ForgeCSS(options?: ForgeCSSOptions): ForgeInstance;

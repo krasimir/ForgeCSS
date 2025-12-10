@@ -18,7 +18,10 @@ ForgeCSS({
     }
   }
 })
-  .parseDirectory(path.join(__dirname, "public"), path.join(__dirname, "public/forgecss-output.css"))
+  .parseDirectory({
+    dir: path.join(__dirname, "public"),
+    output: path.join(__dirname, "public/forgecss-output.css")
+  })
   .then(() => {
     console.log("ForgeCSS parsing completed.");
   });

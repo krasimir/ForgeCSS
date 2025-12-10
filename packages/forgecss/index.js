@@ -34,7 +34,7 @@ export default function ForgeCSS(options) {
   }
 
   return {
-    async parseDirectory(dir, output = null) {
+    async parseDirectory({ dir, output = null }) {
       if (!dir) {
         throw new Error('forgecss: parseDirectory requires "dir" as an argument.');
       }
@@ -59,7 +59,7 @@ export default function ForgeCSS(options) {
       // generating the output CSS
       return result(output);
     },
-    async parseFile(file, output = null) {
+    async parseFile({ file, output = null }) {
       if (!file) {
         throw new Error('forgecss: parseFile requires "file" as an argument.');
       }
@@ -84,12 +84,12 @@ export default function ForgeCSS(options) {
       // generating the output CSS
       return result(output);
     },
-    async parse(css, html, output = null) {
+    async parse({ css, html, jsx, output = null }) {
       if (!css) {
-        throw new Error('forgecss: parse requires "css" as an argument.');
+        throw new Error('forgecss: parse requires "css".');
       }
-      if (!html) {
-        throw new Error('forgecss: parse requires "html" as an argument.');
+      if (!html && !jsx) {
+        throw new Error('forgecss: parse requires "html" or "jsx".');
       }
       invalidateInvetory();
       invalidateUsageCache();
@@ -101,7 +101,11 @@ export default function ForgeCSS(options) {
       }
       // finding the usages
       try {
-        await findUsages("usage.html", html);
+        if (html) {
+          await findUsages("usage.html", html);
+        } else if (jsx) {
+          await findUsages("usage.jsx", jsx);
+        }
       } catch (err) {
         console.error(`forgecss: error extracting usages.`, err);
       }

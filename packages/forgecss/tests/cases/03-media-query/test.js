@@ -13,6 +13,6 @@ export default async function test() {
       }
     }
   });
-  const result = await forgecss.parseDirectory(getPath(__dirname + "/src"));
+  const result = await forgecss.parseDirectory({ dir: getPath(__dirname + "/src") });
   return expect.toEqualFile(result, __dirname + "/expected.css");
 }
