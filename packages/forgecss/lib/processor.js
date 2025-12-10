@@ -69,21 +69,26 @@ export function getUsages() {
   return USAGES;
 }
 function storeUsage(filePath, classesString = "") {
-  if (classesString) {
-    classesString.split(" ").forEach((part) => {
-      if (part.indexOf(":") > -1) {
-        let [label, classes] = part.split(":");
-        classes = classes.split(",");
-        classes.forEach((cls) => {
-          if (!USAGES[filePath][label]) {
-            USAGES[filePath][label] = [];
-          }
-          USAGES[filePath][label].push(cls);
-        });
+  if (!classesString) return;
+
+  classesString.split(" ").forEach((part) => {
+    if (part.includes(":")) {
+      const lastColonIndex = part.lastIndexOf(":");
+      const label = part.slice(0, lastColonIndex); // "desktop" or "[&:hover]"
+      const clsPart = part.slice(lastColonIndex + 1); // e.g. "mt1"
+
+      const classes = clsPart.split(",");
+
+      if (!USAGES[filePath][label]) {
+        USAGES[filePath][label] = [];
       }
-    });
-  }
+      classes.forEach((cls) => {
+        USAGES[filePath][label].push(cls);
+      });
+    }
+  });
 }
+
 function traverseASTNode(node, visitors, stack = []) {
   if (!node || typeof node.type !== "string") {
     return;

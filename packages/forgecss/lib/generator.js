@@ -1,4 +1,5 @@
 import { getUsages } from "./processor.js";
+import arbitraryTransformer from "./transformers/arbitrary.js";
 import mediaQueryTransformer from "./transformers/mediaQuery.js";
 import pseudoClassTransformer from "./transformers/pseudo.js";
 
@@ -11,6 +12,8 @@ export async function generateOutputCSS(config) {
         if (mediaQueryTransformer(config, label, usages[file][label], bucket)) {
           return;
         } else if (pseudoClassTransformer(label, usages[file][label], bucket)) {
+          return;
+        } else if (arbitraryTransformer(label, usages[file][label], bucket)) {
           return;
         }
       } catch (err) {

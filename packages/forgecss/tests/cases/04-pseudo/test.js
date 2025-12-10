@@ -8,9 +8,9 @@ const CASES = [
     expected: ".hover_red:hover{color:red}"
   },
   {
-    styles: ".red { color: red }",
-    usage: '<div class="focus:red"></div>',
-    expected: ".focus_red:focus{color:red}"
+    styles: ".red { color: red }.mt2 { margin-top: 2rem }",
+    usage: '<div class="focus:red active:mt2"></div>',
+    expected: ".focus_red:focus{color:red}.active_mt2:active{margin-top:2rem}"
   }
 ];
 
