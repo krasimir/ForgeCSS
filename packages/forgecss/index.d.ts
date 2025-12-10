@@ -1,5 +1,4 @@
 export type ForgeCSSOptions = {
-  source: string;
   inventoryFiles?: string[];
   usageFiles?: string[];
   usageAttributes?: string[];
@@ -8,11 +7,12 @@ export type ForgeCSSOptions = {
       [key: string]: string
     };
   };
-  output?: string;
 };
 
 export type ForgeInstance = {
-  parse: (filePathToSpecificFile?: string) => Promise<void>;
+  parseDirectory: (directoryPath: string, outputFile?: string) => Promise<string>;
+  parseFile: (filePath: string, outputFile?: string) => Promise<string>;
+  parse: (css: string, html: string, outputFile?: string) => Promise<string>;
 };
 
 declare function ForgeCSS(options?: ForgeCSSOptions): ForgeInstance;

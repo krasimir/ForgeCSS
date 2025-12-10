@@ -14,8 +14,8 @@ ForgeCSS({
   source: path.join(__dirname, "public"),
   mapping: {
     queries: {
-      desktop: "min-width: 768px", // desktop
-      mobile: "max-width: 768px" // mobile
+      desktop: "min-width: 768px",
+      mobile: "max-width: 768px"
     }
   },
   output: path.join(__dirname, "public/forgecss-output.css")

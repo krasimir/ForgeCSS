@@ -65,6 +65,9 @@ export function invalidateUsageCache(filePath) {
     delete USAGES[filePath];
   }
 }
+export function getUsages() {
+  return USAGES;
+}
 function storeUsage(filePath, classesString = "") {
   if (classesString) {
     classesString.split(" ").forEach((part) => {
@@ -116,7 +119,4 @@ function traverseASTNode(node, visitors, stack = []) {
       traverseASTNode(child, visitors, [node].concat(stack));
     }
   }
-}
-export function getUsages() {
-  return USAGES;
 }

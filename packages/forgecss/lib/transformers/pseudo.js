@@ -38,7 +38,7 @@ export default function pseudoClassTransformer(label, selectors, bucket) {
     const rule = postcss.rule({ selector: `.${key}:${label}` });
     const decls = getStylesByClassName(selector);
     if (decls.length === 0) {
-      console.warn(`forgecss: no styles found for class ".${selector}" used in state class "${label}"`);
+      console.warn(`forgecss: no styles found for class ".${selector}" used in pseudo class "${label}"`);
       return;
     }
     decls.forEach((d) => {

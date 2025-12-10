@@ -21,11 +21,12 @@ export default function mediaQueryTransformer(config, label, selectors, bucket) 
     if (bucket[label].classes[prefixedSelector]) {
       return;
     }
-    bucket[label].classes[prefixedSelector] = true;
+    bucket[label].classes[prefixedSelector] = true; // caching
     const rule = postcss.rule({ selector: prefixedSelector });
     const decls = getStylesByClassName(selector);
     if (decls.length === 0) {
       console.warn(`forgecss: no styles found for class ".${selector}" used in media query "${label}"`);
+      delete bucket[label];
       return;
     }
     decls.forEach((d) => {
