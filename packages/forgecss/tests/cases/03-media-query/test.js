@@ -5,7 +5,6 @@ const __dirname = '/cases/03-media-query';
 
 export default async function test() {
   const forgecss = ForgeCSS({
-    source: getPath(__dirname + "/src"),
     mapping: {
       queries: {
         desktop: "(min-width: 1024px)",
@@ -14,6 +13,6 @@ export default async function test() {
       }
     }
   });
-  const result = await forgecss.parse();
+  const result = await forgecss.parseDirectory(getPath(__dirname + "/src"));
   return expect.toEqualFile(result, __dirname + "/expected.css");
 }
