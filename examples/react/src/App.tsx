@@ -1,32 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import './forgecss.css';
 import fx from '../../../packages/forgecss/fx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ progress, setProgress ] = useState(false);
+
+  function submit(e) {
+    e.preventDefault();
+    setProgress(true);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className={fx("p2 bg-dark desktop:p1,bg-light mobile:alert-bg")}>
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className={fx("read-the-docs fz2 desktop:fz1")}>Click on the Vite and React logos to learn more</p>
-    </>
+    <main className={fx("p1")}>
+      <form onSubmit={submit} className={fx("fullw desktop:w400")}>
+        <fieldset>
+          <label className={fx("flex-col align-start desktop:flex-row,align-center gap1 space-between")}>
+            <span>Username:</span>
+            <input
+              type="text"
+              name="username"
+              placeholder="..."
+              disabled={progress}
+              className={fx("disabled:op05 fullw desktop:autow")}
+            />
+          </label>
+          <label className={fx("flex-col align-start desktop:flex-row,align-center gap1 space-between")}>
+            <span>Password:</span>
+            <input
+              type="text"
+              name="username"
+              placeholder="..."
+              disabled={progress}
+              className={fx("disabled:op05 fullw desktop:autow")}
+            />
+          </label>
+          <button
+            type="submit"
+            className={fx("hover:primary2-bg disabled:op05 [&:disabled:hover]:primary-bg")}
+            disabled={progress}
+          >
+            {progress ? "Logging in ... " : "Login"}
+          </button>
+        </fieldset>
+      </form>
+    </main>
   );
 }
 

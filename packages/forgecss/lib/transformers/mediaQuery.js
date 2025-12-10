@@ -26,7 +26,6 @@ export default function mediaQueryTransformer(config, label, selectors, bucket) 
     const decls = getStylesByClassName(selector);
     if (decls.length === 0) {
       console.warn(`forgecss: no styles found for class ".${selector}" used in media query "${label}"`);
-      delete bucket[label];
       return;
     }
     decls.forEach((d) => {

@@ -7,7 +7,7 @@ export default function arbitraryTransformer(label, selectors, bucket) {
     const arbitrarySelector = label.slice(1, -1).trim();
     selectors.forEach((selector) => {
       const key = `${normalizeLabel(label)}_${selector}`;
-      const transformedSelector = `${arbitrarySelector.replace(/[&]/g, key)}`;
+      const transformedSelector = `.${arbitrarySelector.replace(/[&]/g, key)}`;
       const root = postcss.root();
       if (bucket[transformedSelector]) {
         // already have that
