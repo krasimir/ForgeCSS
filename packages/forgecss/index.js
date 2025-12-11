@@ -1,7 +1,7 @@
 import { writeFile } from "fs/promises";
 import getAllFiles from "./lib/getAllFiles.js";
 import { extractStyles, invalidateInvetory } from "./lib/inventory.js";
-import { invalidateUsageCache, findUsages } from "./lib/processor.js";
+import { invalidateUsageCache, findUsages } from "./lib/usages.js";
 import { generateOutputCSS } from "./lib/generator.js";
 
 const DEFAULT_OPTIONS = {

@@ -1,5 +1,5 @@
 import swc from "@swc/core";
-import { readFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
 
@@ -35,6 +35,7 @@ export async function findUsages(filePath, fileContent = null) {
       tsx: true,
       decorators: false
     });
+    // writeFile(process.cwd() + '/ast.json', JSON.stringify(ast, null, 2), 'utf-8').catch(() => {});
     traverseASTNode(ast, {
       JSXExpressionContainer(node) {
         if (node?.expression?.callee?.value === FUNC_NAME && node?.expression?.arguments) {
@@ -42,10 +43,9 @@ export async function findUsages(filePath, fileContent = null) {
             const arg = node.expression.arguments[0];
             let value = arg?.expression.value;
             if (arg.expression.type === "TemplateLiteral") {
-              value = "";
-              arg.expression.quasis.forEach((elem) => {
-                value += elem?.cooked || "";
-              });
+              let quasis = arg.expression.quasis.map((elem) => elem?.cooked || "");
+              quasis = injectBetweenBracketPairs(quasis || [], ["[", "?]"], "true");
+              value = quasis.join("");
             }
             storeUsage(filePath, value);
           }
@@ -88,7 +88,6 @@ function storeUsage(filePath, classesString = "") {
     }
   });
 }
-
 function traverseASTNode(node, visitors, stack = []) {
   if (!node || typeof node.type !== "string") {
     return;
@@ -124,4 +123,24 @@ function traverseASTNode(node, visitors, stack = []) {
       traverseASTNode(child, visitors, [node].concat(stack));
     }
   }
+}
+function injectBetweenBracketPairs(arr, [start, end], injectedValue = "") {
+  const result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    const current = arr[i];
+    const next = arr[i + 1];
+
+    result.push(current);
+    if (
+      typeof current === "string" &&
+      typeof next === "string" &&
+      current.trim().endsWith(start) &&
+      next.trim().startsWith(end)
+    ) {
+      result.push(injectedValue);
+    }
+  }
+
+  return result;
 }

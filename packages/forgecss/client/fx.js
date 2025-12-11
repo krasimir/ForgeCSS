@@ -3,12 +3,13 @@ export default function fx(classes) {
     .split(" ")
     .map((className) => {
       const [label, rest] = splitClassName(className);
-      if (!label) return rest;
-      return rest
-        .split(",")
-        .map((cls) => `${normalizeLabel(label)}_${cls}`)
-        .filter(Boolean)
-        .join(" ");
+      if (!label || label === "[true?]") return rest;
+      if (label === "[false?]") return "";
+        return rest
+          .split(",")
+          .map((cls) => `${normalizeLabel(label)}_${cls}`)
+          .filter(Boolean)
+          .join(" ");
     })
     .filter(Boolean)
     .join(" ");
@@ -29,7 +30,7 @@ export function normalizeLabel(label) {
   if (normalized.startsWith("[") && normalized.endsWith("]")) {
     normalized = normalized.slice(1, -1);
   }
-  normalized = normalized.replace(/[:|&]/g, "_");
+  normalized = normalized.replace(/[:|&|?]/g, "_");
   return normalized;
 }
 

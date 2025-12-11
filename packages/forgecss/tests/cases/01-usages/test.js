@@ -1,5 +1,5 @@
 import { invalidateInvetory } from "../../../lib/inventory.js";
-import { findUsages, getUsages, invalidateUsageCache } from "../../../lib/processor.js";
+import { findUsages, getUsages, invalidateUsageCache } from "../../../lib/usages.js";
 import { getPath, expect } from "../../helpers.js";
 
 export default async function test() {
@@ -19,7 +19,9 @@ export default async function test() {
       expected: {
         [getPath("/cases/01-usages/src/page.tsx")]: {
           desktop: ["mt1"],
-          mobile: ["my1"]
+          mobile: ["my1"],
+          "[true?]": ["my1", "red"],
+          "[&:hover]": ["red"]
         }
       }
     }

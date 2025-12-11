@@ -1,4 +1,4 @@
-import { getUsages } from "./processor.js";
+import { getUsages } from "./usages.js";
 import arbitraryTransformer from "./transformers/arbitrary.js";
 import mediaQueryTransformer from "./transformers/mediaQuery.js";
 import pseudoClassTransformer from "./transformers/pseudo.js";

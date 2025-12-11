@@ -3,6 +3,9 @@
     .desktop_w400 {
         width: 400px
     }
+    .desktop_p2 {
+        padding: 2rem
+    }
     .desktop_flex-row {
         display: flex;
         flex-direction: row

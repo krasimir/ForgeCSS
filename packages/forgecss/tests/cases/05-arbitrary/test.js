@@ -14,7 +14,7 @@ const CASES = [
       <div class="[&:required:disabled]:red,fz2"></div>
     `,
     expected:
-      "__hover_red:hover{color:red}__hover_fz2:hover{font-size:2rem}__hover_mt2:hover{margin-top:2rem}__required_disabled_red:required:disabled{color:red}__required_disabled_fz2:required:disabled{font-size:2rem}"
+      ".__hover_red:hover{color:red}.__hover_fz2:hover{font-size:2rem}.__hover_mt2:hover{margin-top:2rem}.__required_disabled_red:required:disabled{color:red}.__required_disabled_fz2:required:disabled{font-size:2rem}"
   }
 ];
 

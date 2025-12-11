@@ -1,0 +1,356 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 2445,
+    "end": 2674
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 2445,
+        "end": 2479
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 2454,
+            "end": 2464
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 2454,
+              "end": 2464
+            },
+            "ctxt": 2,
+            "value": "StrictMode",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 2472,
+          "end": 2479
+        },
+        "value": "react",
+        "raw": "'react'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 2480,
+        "end": 2525
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 2489,
+            "end": 2499
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 2489,
+              "end": 2499
+            },
+            "ctxt": 2,
+            "value": "createRoot",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 2507,
+          "end": 2525
+        },
+        "value": "react-dom/client",
+        "raw": "'react-dom/client'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 2526,
+        "end": 2546
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 2533,
+          "end": 2546
+        },
+        "value": "./index.css",
+        "raw": "'./index.css'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 2547,
+        "end": 2574
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 2554,
+            "end": 2557
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 2554,
+              "end": 2557
+            },
+            "ctxt": 2,
+            "value": "App",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 2563,
+          "end": 2574
+        },
+        "value": "./App.tsx",
+        "raw": "'./App.tsx'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 2576,
+        "end": 2674
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 2576,
+          "end": 2674
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 2576,
+            "end": 2627
+          },
+          "object": {
+            "type": "CallExpression",
+            "span": {
+              "start": 2576,
+              "end": 2620
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 2576,
+                "end": 2586
+              },
+              "ctxt": 2,
+              "value": "createRoot",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "TsNonNullExpression",
+                  "span": {
+                    "start": 2587,
+                    "end": 2619
+                  },
+                  "expression": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2587,
+                      "end": 2618
+                    },
+                    "ctxt": 0,
+                    "callee": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 2587,
+                        "end": 2610
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2587,
+                          "end": 2595
+                        },
+                        "ctxt": 1,
+                        "value": "document",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 2596,
+                          "end": 2610
+                        },
+                        "value": "getElementById"
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2611,
+                            "end": 2617
+                          },
+                          "value": "root",
+                          "raw": "'root'"
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 2621,
+              "end": 2627
+            },
+            "value": "render"
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "JSXElement",
+              "span": {
+                "start": 2631,
+                "end": 2671
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2632,
+                    "end": 2642
+                  },
+                  "ctxt": 2,
+                  "value": "StrictMode",
+                  "optional": false
+                },
+                "span": {
+                  "start": 2631,
+                  "end": 2643
+                },
+                "attributes": [],
+                "selfClosing": false,
+                "typeArguments": null
+              },
+              "children": [
+                {
+                  "type": "JSXText",
+                  "span": {
+                    "start": 2643,
+                    "end": 2648
+                  },
+                  "value": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "JSXElement",
+                  "span": {
+                    "start": 2648,
+                    "end": 2655
+                  },
+                  "opening": {
+                    "type": "JSXOpeningElement",
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2649,
+                        "end": 2652
+                      },
+                      "ctxt": 2,
+                      "value": "App",
+                      "optional": false
+                    },
+                    "span": {
+                      "start": 2648,
+                      "end": 2655
+                    },
+                    "attributes": [],
+                    "selfClosing": true,
+                    "typeArguments": null
+                  },
+                  "children": [],
+                  "closing": null
+                },
+                {
+                  "type": "JSXText",
+                  "span": {
+                    "start": 2655,
+                    "end": 2658
+                  },
+                  "value": "\n  ",
+                  "raw": "\n  "
+                }
+              ],
+              "closing": {
+                "type": "JSXClosingElement",
+                "span": {
+                  "start": 2658,
+                  "end": 2671
+                },
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2660,
+                    "end": 2670
+                  },
+                  "ctxt": 2,
+                  "value": "StrictMode",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

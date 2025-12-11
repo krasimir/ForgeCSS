@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { getPath } from "./helpers.js";
-import { invalidateUsageCache } from "../lib/processor.js";
+import { invalidateUsageCache } from "../lib/usages.js";
 import { invalidateInvetory } from "../lib/inventory.js";
 
 const spec = (process.argv[2] || '').split('=')[1] || null;
