@@ -2,7 +2,7 @@ import swc from "@swc/core";
 import { readFile, writeFile } from "fs/promises";
 import { fromHtml } from "hast-util-from-html";
 import { visit } from "unist-util-visit";
-import { SPLIT_CLASSES_REGEXP } from "../client/fx.js";
+import { parseClass } from "../client/fx.js";
 
 const FUNC_NAME = 'fx';
 let USAGES = {};
@@ -71,13 +71,14 @@ export function getUsages() {
 function storeUsage(filePath, classesString = "") {
   if (!classesString) return;
 
-  classesString.split(SPLIT_CLASSES_REGEXP).forEach((part) => {
+  parseClass(classesString).forEach((part) => {
     if (part.includes(":")) {
       const lastColonIndex = part.lastIndexOf(":");
       const label = part.slice(0, lastColonIndex); // "desktop" or "[&:hover]"
       const clsPart = part.slice(lastColonIndex + 1); // e.g. "mt1"
-
       const classes = clsPart.split(",");
+
+      if (label === "[]") return;
 
       if (!USAGES[filePath][label]) {
         USAGES[filePath][label] = [];

@@ -25,6 +25,9 @@ main {
 .maxw600 {
   max-width: 600px;
 }
+.maxw900 {
+  max-width: 900px;
+}
 .p1 {
   padding: 1rem;
 }

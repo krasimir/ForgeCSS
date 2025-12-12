@@ -9,8 +9,7 @@ const CASES = [
     usage: `
       <div class="[&:hover]:red"></div>
     `,
-    expected:
-      ".\\[\\&\\:hover\\]\\:red:hover{color:red}"
+    expected: ".\\[\\&\\:hover\\]\\:red:hover{color:red}"
   },
   {
     styles: `
@@ -34,12 +33,34 @@ const CASES = [
     `,
     expected:
       ".\\[\\&\\:required\\:disabled\\]\\:red:required:disabled{color:red}.\\[\\&\\:required\\:disabled\\]\\:fz2:required:disabled{font-size:2rem}"
+  },
+  {
+    styles: `
+      .red { color: red }
+    `,
+    usage: `
+      <div class="[.dark &]:red"></div>
+    `,
+    expected: ".dark .\\[\\.dark\\ \\&\\]\\:red{color:red}"
+  },
+  {
+    styles: `
+      .red { color: red }
+    `,
+    usage: `
+      function Component() { return <div className={fx(\`[\${foobar}]:red\`)}></div> }
+    `,
+    expected: "",
+    type: 'jsx'
   }
 ];
 
 export default async function test() {
   for (let testCase of CASES) {
-    const css = await ForgeCSS().parse({ css: testCase.styles, html: testCase.usage });
+    const css = await ForgeCSS().parse({
+      css: testCase.styles,
+      [testCase.type || 'html']: testCase.usage
+    });
     // console.log(css);
     if (!expect.toBe(minifyCSS(css), testCase.expected)) {
       return false;

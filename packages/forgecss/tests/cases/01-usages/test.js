@@ -8,9 +8,8 @@ export default async function test() {
       file: getPath("/cases/01-usages/src/page.html"),
       expected: {
         [getPath("/cases/01-usages/src/page.html")]: {
-          desktop: ["mt2"],
-          mobile: ["fz2", "red"],
-          tablet: ["mt3", "blue"]
+          desktop: ["red"],
+          "[.dark &:hover]": ["red"]
         }
       }
     },
@@ -18,22 +17,13 @@ export default async function test() {
       file: getPath("/cases/01-usages/src/page.tsx"),
       expected: {
         [getPath("/cases/01-usages/src/page.tsx")]: {
-          "desktop": [
-            "b"
-          ],
-          "mobile": [
-            "d"
-          ],
-          "[]": [
-            "b",
-            "c"
-          ],
-          "[&:hover]": [
-            "a"
-          ],
-          "[.dark &]": [
-            "b"
-          ]
+          desktop: ["b", "b2"],
+          mobile: ["d"],
+          "[&:hover]": ["a"],
+          "[.dark &]": ["b"],
+          "[.dark desktop:b]": ["c"],
+          "[.dark &:has(.desc)]": ["c"],
+          "[.dark &[type='password']]": ["c"]
         }
       }
     }

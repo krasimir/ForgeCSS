@@ -36,7 +36,7 @@ function App() {
       <form onSubmit={submit} className={fx("fullw desktop:w400")}>
         <fieldset
           className={fx(
-            `[.dark &]:background-light desktop:p2 no-border [${isErrored}?]:error-border [${success}?]:success-border`
+            `[.dark &]:background-light desktop:p2 no-border [${isErrored}]:error-border [${success}]:success-border`
           )}
         >
           {success ? (
