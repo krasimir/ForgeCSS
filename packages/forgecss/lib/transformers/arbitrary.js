@@ -3,27 +3,30 @@ import postcss from "postcss";
 import { normalizeLabel } from "../../client/fx.js";
 import { setDeclarations } from "../helpers.js";
 
-export default function arbitraryTransformer(label, selectors, bucket) {
+export default function arbitraryTransformer(label, classes, bucket) {
   if (label.startsWith("[") && label.endsWith("]")) {
-    const arbitrarySelector = label.slice(1, -1).trim();
-    if (arbitrarySelector === '') {
+    let arbitrarySelector = label.slice(1, -1).trim();
+    if (['', 'true'].includes(arbitrarySelector)) {
       return true;
     }
-    selectors.forEach((selector) => {
-      const key = "." + normalizeLabel(label + ":" + selector);
-      let transformedSelector = arbitrarySelector.replace(/[&]/g, key);
+    classes.forEach((cls) => {
+      const I = normalizeLabel(label) + "--" + cls;
+      const selector = evaluateArbitrary(arbitrarySelector, I);
       const root = postcss.root();
-      if (bucket[transformedSelector]) {
+      if (bucket[I]) {
         return;
       }
-      const rule = postcss.rule({
-        selector: transformedSelector
-      });
-      setDeclarations(selector, rule);
+      const rule = postcss.rule({ selector });
+      setDeclarations(cls, rule);
       root.append(rule);
-      bucket[transformedSelector] = root;
+      bucket[I] = root;
     });
     return true;
   }
   return false;
+}
+
+function evaluateArbitrary(label, I) {
+  label = label.replace(/[&]/g, `.${I}`);
+  return label;
 }

@@ -1,11 +1,12 @@
 export default function fx(classes) {
   return parseClass(classes).map((className) => {
-      const [label, rest] = splitClassName(className);
+      let [label, rest] = splitClassName(className);
       if (!label || label === "[true]") return rest;
       if (label === "[false]") return false;
+      label = normalizeLabel(label);
       return rest
         .split(",")
-        .map((cls) => `${label}:${cls}`)
+        .map((cls) => `${label}--${cls}`)
         .join(" ");
     })
     .filter(Boolean)
@@ -23,7 +24,9 @@ export function splitClassName(label) {
 
 export function normalizeLabel(label) {
   let normalized = label.trim();
-  normalized = normalized.replace(/[^a-zA-Z0-9_-]/g, (m) => "\\" + m);
+  normalized = normalized.replace(/[&]/g, "I");
+  normalized = normalized.replace(/[:| =]/g, "-");
+  normalized = normalized.replace(/[^a-zA-Z0-9_-]/g, '');
   return normalized;
 }
 

@@ -17,8 +17,8 @@ export default async function test() {
       file: getPath("/cases/01-usages/src/page.tsx"),
       expected: {
         [getPath("/cases/01-usages/src/page.tsx")]: {
-          desktop: ["b", "b2"],
-          mobile: ["d"],
+          "desktop": ["b", "b2"],
+          "mobile": ["d"],
           "[&:hover]": ["a"],
           "[.dark &]": ["b"],
           "[.dark desktop:b]": ["c"],
