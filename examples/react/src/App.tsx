@@ -67,7 +67,7 @@ function App() {
                 <span>Password:</span>
                 <div className={fx("fullw desktop:autow")}>
                   <input
-                    type="text"
+                    type="password"
                     name="password"
                     placeholder="*****"
                     disabled={progress}

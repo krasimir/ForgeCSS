@@ -2,10 +2,8 @@ export type ForgeCSSOptions = {
   inventoryFiles?: string[];
   usageFiles?: string[];
   usageAttributes?: string[];
-  mapping?: {
-    queries?: {
-      [key: string]: string
-    };
+  breakpoints?: {
+    [key: string]: string
   };
 };
 

@@ -14,11 +14,9 @@ const PORT = 5203;
 const app = express();
 
 ForgeCSS({
-  mapping: {
-    queries: {
-      desktop: "min-width: 768px",
-      mobile: "max-width: 768px"
-    }
+  breakpoints: {
+    desktop: "min-width: 768px",
+    mobile: "max-width: 768px"
   }
 })
   .parseDirectory({

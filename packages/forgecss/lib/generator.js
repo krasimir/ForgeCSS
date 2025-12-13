@@ -2,6 +2,7 @@ import { getUsages } from "./usages.js";
 import arbitraryTransformer from "./transformers/arbitrary.js";
 import mediaQueryTransformer from "./transformers/mediaQuery.js";
 import pseudoClassTransformer from "./transformers/pseudo.js";
+import { resolveApplys } from "./inventory.js";
 
 export async function generateOutputCSS(config) {
   const bucket = {};
@@ -27,6 +28,7 @@ export async function generateOutputCSS(config) {
       }
     });
   });
+  resolveApplys(bucket);
   return Object.keys(bucket)
     .map((key) => {
       if (bucket[key].rules) {

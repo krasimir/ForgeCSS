@@ -8,17 +8,13 @@ const DEFAULT_OPTIONS = {
   inventoryFiles: ["css", "less", "scss"],
   usageFiles: ["html", "jsx", "tsx"],
   usageAttributes: ["class", "className"],
-  mapping: {
-    queries: {}
-  }
+  breakpoints: {}
 };
 
 export default function ForgeCSS(options) {
   const config = { ...DEFAULT_OPTIONS };
 
-  config.mapping = {
-    queries: Object.assign({}, DEFAULT_OPTIONS.mapping.queries, options?.mapping?.queries ?? {})
-  };
+  config.breakpoints = Object.assign({}, DEFAULT_OPTIONS.breakpoints, options?.breakpoints ?? {});
 
   async function result(output) {
     try {

@@ -5,12 +5,10 @@ const __dirname = '/cases/03-media-query';
 
 export default async function test() {
   const forgecss = ForgeCSS({
-    mapping: {
-      queries: {
-        desktop: "(min-width: 1024px)",
-        mobile: "(max-width: 1023px)",
-        portrait: "(orientation: portrait)"
-      }
+    breakpoints: {
+      desktop: "(min-width: 1024px)",
+      mobile: "(max-width: 1023px)",
+      portrait: "(orientation: portrait)"
     }
   });
   const result = await forgecss.parseDirectory({ dir: getPath(__dirname + "/src") });

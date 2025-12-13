@@ -24,3 +24,29 @@ export function getStylesByClassName(selector) {
 export function invalidateInvetory() {
   INVENTORY = {};
 }
+export function resolveApplys(bucket) {
+  Object.keys(INVENTORY).forEach((filePath) => {
+    INVENTORY[filePath].walkRules((rule) => {
+      rule.walkDecls((d) => {
+        if (d.prop === '--apply') {
+          const classesToApply = d.value.split(' ').map(c => c.trim()).filter(Boolean);
+          const newRule = postcss.rule({ selector: rule.selector });
+          classesToApply.forEach((className) => {
+            const styles = getStylesByClassName(className);
+            styles.forEach((style) => {
+              newRule.append({
+                prop: style.prop,
+                value: style.value,
+                important: style.important
+              });
+            });
+          });
+          if (!bucket['_APPLY_']) {
+            bucket["_APPLY_"] = postcss.root();
+          }
+          bucket["_APPLY_"].append(newRule);
+        }
+      });
+    });
+  });
+}
