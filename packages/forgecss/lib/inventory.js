@@ -19,6 +19,9 @@ export function getStylesByClassName(selector) {
       }
     });
   });
+  if (decls.length === 0) {
+    console.warn(`forgecss: Warning - no styles found for class "${selector}".`);
+  }
   return decls;
 }
 export function invalidateInvetory() {
