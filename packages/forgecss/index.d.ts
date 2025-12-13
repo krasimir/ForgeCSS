@@ -3,14 +3,15 @@ export type ForgeCSSOptions = {
   usageFiles?: string[];
   usageAttributes?: string[];
   breakpoints?: {
-    [key: string]: string
+    [key: string]: string;
   };
+  verbose?: boolean;
 };
 
 export type ForgeInstance = {
-  parseDirectory: (options: { dir: string; output?: string }) => Promise<string>;
-  parseFile: (options: { file: string; output?: string }) => Promise<string>;
-  parse: (options: { css: string; html?: string; jsx?: string; output?: string }) => Promise<string>;
+  parseDirectory: (options: { dir: string; output?: string; watch?: boolean }) => Promise<string>;
+  parseFile: (options: { file: string; output?: string; watch?: boolean }) => Promise<string>;
+  parse: (options: { css: string; html?: string; jsx?: string; output?: string; }) => Promise<string>;
 };
 
 declare function ForgeCSS(options?: ForgeCSSOptions): ForgeInstance;
