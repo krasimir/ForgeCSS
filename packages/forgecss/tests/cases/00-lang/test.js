@@ -189,7 +189,7 @@ export default function test() {
         .mt1 { margin-top: 1rem }
         .fz2 { font-size: 2rem }
       `,
-      usage: "hover:mt1 fz2",
+      usage: "hover:mt1 fz2 active:mt1,fz2,fz3",
       classValue: "hover_mt1 fz2",
       expectedCSS: `hover_mt1:hover{margin-top:1rem}`
     }
