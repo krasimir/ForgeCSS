@@ -2,33 +2,40 @@ import postcss from "postcss";
 import { NODE_TYPE, ALLOWED_PSEUDO_CLASSES } from "./constants.js";
 import { minifyCSS } from './utils.js'
 
-export function compileClassAST(ast, getStylesByClassName) {
-  let resultClasses = [];
+export function compileAST(ast, { getStylesByClassName, breakpoints }) {
+  let classes = [];
   let rules = [];
+  console.log(ast);
 
-  function visitor(node, context = {}) {
-    if (Array.isArray(node)) {
-      return ast.forEach((n) => visitor(n, context));
-    }
-    if (node.type === NODE_TYPE.TOKEN && !context.parent) {
-      resultClasses.push(node.value);
-    } else if (node.type === NODE_TYPE.VARIANT) {
-      const nodeClassName = generateClass(node);
-      resultClasses.push(nodeClassName);
-      if (ALLOWED_PSEUDO_CLASSES.includes(node.selector)) {
-        rules.push(createRule(
-          `${nodeClassName}:${node.selector}`,
-          node.payload.value
-        ));
-      }
+  for(let node of ast) {
+    switch(node.type) {
+      case NODE_TYPE.TOKEN:
+        classes.push(node.value)
+      break;
+      case NODE_TYPE.VARIANT:
+        const variant = node.selector;
+        node.payload.value.split(',').map(c => c.trim()).filter(Boolean).forEach(cls => {
+          const selector = `${variant}_${cls}`;
+          classes.push(selector);
+          if (ALLOWED_PSEUDO_CLASSES.includes(variant)) {
+            rules.push(createRule(`${selector}:${variant}`, cls));
+          } else if (breakpoints[variant]) {
+            const mediaRule = postcss.atRule({
+              name: "media",
+              params: `all and ${breakpoints[variant]}`
+            });
+            mediaRule.append(createRule(selector, cls));
+            rules.push(mediaRule)
+          }
+        })
+      break;
     }
   }
 
-  visitor(ast);
   return {
-    classValue: resultClasses.join(" "),
+    classes,
     rules,
-    css: minifyCSS(rules.map((r) => r.toString()).join(''))
+    css: minifyCSS(rules.map((r) => r.toString()).join(""))
   };
 
   function createRule(selector, pickStylesFrom) {
@@ -52,7 +59,7 @@ function generateClass(node) {
   if (node.type === NODE_TYPE.VARIANT) {
     return `${node.selector.replace(/[: ]/g, '_')}${generateClass(node.payload)}`;
   } else if (node.type === NODE_TYPE.TOKEN) {
-    return `_${node.value}`;
+    return `_${node.value.replace(/[,]/g, '-')}`;
   }
   return '----';
 }

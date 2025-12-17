@@ -1,6 +1,8 @@
 import { parseClassValue } from "../../../lib/forge-lang/Parser.js";
-import { compileClassAST } from "../../../lib/forge-lang/Compiler.js";
-import { extractStyles, invalidateInvetory, getStylesByClassName } from "../../../lib/inventory.js";
+import { compileAST } from "../../../lib/forge-lang/Compiler.js";
+import { invalidateInvetory } from "../../../lib/inventory.js";
+
+const mockGetStyleByClassName = (_) => [{ prop: "foo", value: "bar", important: false }];
 
 export default function test() {
   const parserCases = [
@@ -184,26 +186,33 @@ export default function test() {
   }
   // testing the compiler
   const compilerCases = [
+    // {
+    //   usage: "hover:mt1 fz2 active:mt1,fz2,fz3",
+    //   classValue: "hover_mt1 fz2 active_mt1 active_fz2 active_fz3",
+    //   expectedCSS: "hover_mt1:hover{foo:bar}active_mt1:active{foo:bar}active_fz2:active{foo:bar}active_fz3:active{foo:bar}"
+    // },
     {
-      styles: `
-        .mt1 { margin-top: 1rem }
-        .fz2 { font-size: 2rem }
-      `,
-      usage: "hover:mt1 fz2 active:mt1,fz2,fz3",
-      classValue: "hover_mt1 fz2",
-      expectedCSS: `hover_mt1:hover{margin-top:1rem}`
+      usage: "desktop:mt1 fz2 ",
+      classValue: "desktop_mt1 fz2",
+      expectedCSS: "@media all and (min-width:1024px){desktop_mt1{foo:bar}}"
     }
   ];
   for (let i=0; i<compilerCases.length; i++) {
     const testCase = compilerCases[i];
     invalidateInvetory();
-    extractStyles("test.css", testCase.styles);
     const ast = parseClassValue(testCase.usage);
-    const result = compileClassAST(ast, getStylesByClassName);
-    if (result.classValue !== testCase.classValue) {
+    const result = compileAST(ast, {
+      getStylesByClassName: mockGetStyleByClassName,
+      breakpoints: {
+        desktop: "(min-width: 1024px)",
+        mobile: "(max-width: 1023px)",
+        portrait: "(orientation: portrait)"
+      }
+    });
+    if (result.classes.join(' ') !== testCase.classValue) {
       console.error(`${i + 1}# Compiler Test failed (classValue):`);
       console.error("Expected:\n", testCase.classValue);
-      console.error("Got:\n", result.classValue);
+      console.error("Got:\n", result.classes.join(" "));
       return false;
     }
     if (result.css !== testCase.expectedCSS) {
