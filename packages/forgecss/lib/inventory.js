@@ -27,7 +27,8 @@ export function getStylesByClassName(selector) {
 export function invalidateInvetory() {
   INVENTORY = {};
 }
-export function resolveApplys(bucket) {
+export function resolveApplys() {
+  let resolvedApplies;
   Object.keys(INVENTORY).forEach((filePath) => {
     INVENTORY[filePath].walkRules((rule) => {
       rule.walkDecls((d) => {
@@ -44,12 +45,13 @@ export function resolveApplys(bucket) {
               });
             });
           });
-          if (!bucket['_APPLY_']) {
-            bucket["_APPLY_"] = postcss.root();
+          if (!resolvedApplies) {
+            resolvedApplies = postcss.root();
           }
-          bucket["_APPLY_"].append(newRule);
+          resolvedApplies.append(newRule);
         }
       });
     });
   });
+  return resolvedApplies;
 }

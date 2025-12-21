@@ -11,7 +11,8 @@ const DEFAULT_OPTIONS = {
   usageFiles: ["html", "jsx", "tsx"],
   usageAttributes: ["class", "className"],
   breakpoints: {},
-  verbose: true
+  verbose: true,
+  minify: true
 };
 
 export default function ForgeCSS(options) {
@@ -22,6 +23,7 @@ export default function ForgeCSS(options) {
   config.usageFiles = options?.usageFiles ?? DEFAULT_OPTIONS.usageFiles;
   config.usageAttributes = options?.usageAttributes ?? DEFAULT_OPTIONS.usageAttributes;
   config.verbose = options?.verbose ?? DEFAULT_OPTIONS.verbose;
+  config.minify = options?.minify ?? DEFAULT_OPTIONS.minify;
 
   async function result(output) {
     try {

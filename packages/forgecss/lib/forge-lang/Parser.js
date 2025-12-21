@@ -1,4 +1,4 @@
-export function parseClassValue(input, cache = {}) {
+export function toAST(input, cache = {}) {
   if (cache[input]) return cache[input];
 
   if (Array.isArray(input)) {
@@ -66,7 +66,7 @@ export function parseClassValue(input, cache = {}) {
     // Bracket variant: [selector]:payload
     if (ch === "[") {
       const selectorRaw = parseBracketContent(); // returns content WITHOUT outer []
-      const selectorAst = parseClassValue(selectorRaw, cache);
+      const selectorAst = toAST(selectorRaw, cache);
 
       if (s[i] === ":") {
         i++;
@@ -93,7 +93,7 @@ export function parseClassValue(input, cache = {}) {
     if (s[i] === ":" && isVariantLabel(head)) {
       i++; // consume ":"
       const payload = parseItem();
-      return { type: "variant", selector: head, payload };
+      return { type: "variant", selector: head, payload, simple: true };
     }
 
     // Call: name(...)

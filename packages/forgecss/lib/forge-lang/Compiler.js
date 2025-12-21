@@ -3,10 +3,14 @@ import { NODE_TYPE, ALLOWED_PSEUDO_CLASSES } from "./constants.js";
 import { minifyCSS } from './utils.js'
 import { normalizeLabel } from "../../client/fx.js";
 
-export function compileAST(ast, options) {
+export function astToRules(ast, options) {
   let rules = [];
-  const { getStylesByClassName, breakpoints, cache = {} } = options
-  console.log(JSON.stringify(ast, null, 2));
+  const { getStylesByClassName, cache = {}, config } = options
+  // console.log(
+  //   "\n====================================================================== ^\n",
+  //   JSON.stringify(ast, null, 2),
+  //   "\n====================================================================== $\n"
+  // );
 
   for(let node of ast) {
     switch (node.type) {
@@ -18,28 +22,28 @@ export function compileAST(ast, options) {
         let classes = (node?.payload?.value ?? "").split(",").map((c) => c.trim()).filter(Boolean);
         let childRules;
         if (!node.payload.value && typeof node.payload === 'object') {
-          const result = compileAST([node.payload], options);
+          const result = astToRules([node.payload], options);
           childRules = result.rules;
         }
 
         // -------------------------------------------------------- pseudo
         if (ALLOWED_PSEUDO_CLASSES.includes(variantSelector)) {
           classes.forEach(cls => {
-            let selector = `${variantSelector}_${cls}`;
+            let selector = `.${variantSelector}_${cls}`;
             const rule = createRule(`${selector}:${variantSelector}`, cls, cache);
             if (rule) {
               rules.push(rule);
             }
           });
         // -------------------------------------------------------- media queries
-        } else if (breakpoints[variantSelector]) {
+        } else if (config.breakpoints[variantSelector]) {
           let mediaRule;
-          if (cache[breakpoints[variantSelector]]) {
-            mediaRule = cache[breakpoints[variantSelector]];
+          if (cache[config.breakpoints[variantSelector]]) {
+            mediaRule = cache[config.breakpoints[variantSelector]];
           } else {
-            mediaRule = cache[breakpoints[variantSelector]] = postcss.atRule({
+            mediaRule = cache[config.breakpoints[variantSelector]] = postcss.atRule({
               name: "media",
-              params: `all and ${breakpoints[variantSelector]}`
+              params: `all and ${config.breakpoints[variantSelector]}`
             });
             rules.push(mediaRule);
           }
@@ -49,13 +53,15 @@ export function compileAST(ast, options) {
             })
           } else {
             classes.forEach((cls) => {
-              let selector = `${variantSelector}_${cls}`;
+              let selector = `.${variantSelector}_${cls}`;
               const rule = createRule(selector, cls, cache);
               if (rule) {
                 mediaRule.append(rule);
               }
             });
           }
+        } else if (node.payload?.type === NODE_TYPE.TOKEN && node.simple === true) {
+          console.warn(`forgecss: there is no breakpoint defined for label "${variantSelector}".`);
         // -------------------------------------------------------- arbitrary
         } else {
           classes.forEach(cls => {
@@ -83,11 +89,6 @@ export function compileAST(ast, options) {
         break;
     }
   }
-
-  return {
-    rules,
-    css: minifyCSS(rules.map((r) => r.toString()).join(""))
-  };
 
   function createRule(selector, pickStylesFrom, cache = {}) {
     if (cache[selector]) {
@@ -121,4 +122,10 @@ export function compileAST(ast, options) {
     variant = variant.replace(/[&]/g, `.${I}`);
     return variant;
   }
+  
+  return rules;
+}
+
+export function rulesToCSS(rules, { minify } = { minify: true }) {
+  return minify ? minifyCSS(rules.map((r) => r.toString()).join("")) : rules.map((r) => r.toString()).join("\n");
 }

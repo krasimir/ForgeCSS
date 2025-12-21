@@ -5,6 +5,7 @@ const __dirname = '/cases/03-media-query';
 
 export default async function test() {
   const forgecss = ForgeCSS({
+    minify: false,
     breakpoints: {
       desktop: "(min-width: 1024px)",
       mobile: "(max-width: 1023px)",

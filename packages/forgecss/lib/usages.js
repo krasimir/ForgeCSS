@@ -15,7 +15,7 @@ export async function findUsages(filePath, fileContent = null) {
       // already processed
       return;
     }
-    USAGES[filePath] = {};
+    USAGES[filePath] = [];
     const content = fileContent ? fileContent : await readFile(filePath, "utf-8");
     const extension = filePath.split('.').pop().toLowerCase();
 
@@ -24,7 +24,7 @@ export async function findUsages(filePath, fileContent = null) {
       const ast = fromHtml(content);
       visit(ast, "element", (node) => {
         if (node.properties.className) {
-          storeUsage(filePath, node.properties.className.join(' '));
+          USAGES[filePath].push(node.properties.className.join(" "));
         }
       });
       return;
@@ -47,7 +47,7 @@ export async function findUsages(filePath, fileContent = null) {
               let quasis = arg.expression.quasis.map((elem) => elem?.cooked || "");
               value = quasis.join("");
             }
-            storeUsage(filePath, value);
+            USAGES[filePath].push(value);
           }
         }
       }
@@ -67,27 +67,6 @@ export function invalidateUsageCache(filePath) {
 }
 export function getUsages() {
   return USAGES;
-}
-function storeUsage(filePath, classesString = "") {
-  if (!classesString) return;
-
-  parseClass(classesString).forEach((part) => {
-    if (part.includes(":")) {
-      const lastColonIndex = part.lastIndexOf(":");
-      const label = part.slice(0, lastColonIndex); // "desktop" or "[&:hover]"
-      const clsPart = part.slice(lastColonIndex + 1); // e.g. "mt1"
-      const classes = clsPart.split(",");
-
-      if (label === "[]") return;
-
-      if (!USAGES[filePath][label]) {
-        USAGES[filePath][label] = [];
-      }
-      classes.forEach((cls) => {
-        USAGES[filePath][label].push(cls);
-      });
-    }
-  });
 }
 function traverseASTNode(node, visitors, stack = []) {
   if (!node || typeof node.type !== "string") {
