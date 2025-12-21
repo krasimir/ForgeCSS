@@ -9,14 +9,15 @@ const __dirname = path.dirname(__filename);
 
 const fxCode = fs.readFileSync(path.join(__dirname, "../../packages/forgecss/dist/forgecss.min.js"), "utf-8");
 
-const PORT = 5203;
+const PORT = 5173;
 const app = express();
 
 ForgeCSS({
   breakpoints: {
-    desktop: "min-width: 768px",
-    mobile: "max-width: 768px"
-  }
+    desktop: "all and (min-width: 768px)",
+    mobile: "all and (max-width: 768px)"
+  },
+  minify: false,
 }).parseDirectory({
   dir: path.join(__dirname, "public"),
   output: path.join(__dirname, "public/forgecss.css"),

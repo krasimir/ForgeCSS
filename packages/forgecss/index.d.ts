@@ -6,6 +6,7 @@ export type ForgeCSSOptions = {
     [key: string]: string;
   };
   verbose?: boolean;
+  minify?: boolean;
 };
 
 export type ForgeInstance = {

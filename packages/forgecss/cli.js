@@ -4,8 +4,9 @@ import fs from 'fs';
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { program } from "commander";
-import ForgeCSS from './index.js';
 import chokidar from "chokidar";
+
+import ForgeCSS from './index.js';
 
 program.option("-c, --config <string>,", "Path to forgecss config file", process.cwd() + "/forgecss.config.js");
 program.option("-w, --watch", "Enable watch mode", false);

@@ -20,14 +20,21 @@ export function getStylesByClassName(selector) {
     });
   });
   if (decls.length === 0) {
-    console.warn(`forgecss: Warning - no styles found for class "${selector}".`);
+    console.warn(`forgecss: no styles found for class "${selector}".`);
   }
   return decls;
 }
-export function invalidateInvetory() {
-  INVENTORY = {};
+export function invalidateInventory(filePath) {
+  if (!filePath) {
+    INVENTORY = {};
+    return;
+  }
+  if (INVENTORY[filePath]) {
+    delete INVENTORY[filePath];
+  }
 }
-export function resolveApplys(bucket) {
+export function resolveApplys() {
+  let resolvedApplies;
   Object.keys(INVENTORY).forEach((filePath) => {
     INVENTORY[filePath].walkRules((rule) => {
       rule.walkDecls((d) => {
@@ -44,12 +51,13 @@ export function resolveApplys(bucket) {
               });
             });
           });
-          if (!bucket['_APPLY_']) {
-            bucket["_APPLY_"] = postcss.root();
+          if (!resolvedApplies) {
+            resolvedApplies = postcss.root();
           }
-          bucket["_APPLY_"].append(newRule);
+          resolvedApplies.append(newRule);
         }
       });
     });
   });
+  return resolvedApplies;
 }
