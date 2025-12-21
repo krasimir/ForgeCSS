@@ -93,22 +93,13 @@ export function astToRules(ast, options) {
     if (cache[selector]) {
       return;
     }
-    pickStylesFrom = pickStylesFrom.split(",").map((c) => c.trim()).filter(Boolean);
-    if (pickStylesFrom.length === 0) {
-      return;
-    }
     const newRule = cache[selector] = postcss.rule({ selector });
-    pickStylesFrom.forEach((className) => setDeclarations(className, newRule));
-    return newRule;
-  }
-  function setDeclarations(selector, rule) {
-    const decls = getStylesByClassName(selector);
+    const decls = getStylesByClassName(pickStylesFrom);
     if (decls.length === 0) {
-      console.warn(`forgecss: no class ".${selector}" found`);
       return;
     }
     decls.forEach((d) => {
-      rule.append(
+      newRule.append(
         postcss.decl({
           prop: d.prop,
           value: d.value,
@@ -116,6 +107,7 @@ export function astToRules(ast, options) {
         })
       );
     });
+    return newRule;
   }
   function evaluateArbitrary(variant, I) {
     variant = variant.replace(/[&]/g, `.${I}`);

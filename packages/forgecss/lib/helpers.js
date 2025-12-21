@@ -1,19 +1,30 @@
-import postcss from "postcss";
-import { getStylesByClassName } from "./inventory.js";
+import fs from "fs/promises";
+import path from "path";
 
-export function setDeclarations(selector, rule) {
-  const decls = getStylesByClassName(selector);
-  if (decls.length === 0) {
-    console.warn(`forgecss: no class ".${selector}" found`);
-    return;
+export async function getAllFiles(dir, matchFiles) {
+  const result = [];
+  const stack = [dir];
+
+  while (stack.length > 0) {
+    const currentDir = stack.pop();
+
+    let dirHandle;
+    try {
+      dirHandle = await fs.opendir(currentDir);
+    } catch (err) {
+      throw err;
+    }
+
+    for await (const entry of dirHandle) {
+      const fullPath = path.join(currentDir, entry.name);
+
+      if (entry.isDirectory()) {
+        stack.push(fullPath);
+      } else if (matchFiles.includes(fullPath.split(".").pop()?.toLowerCase())) {
+        result.push(fullPath);
+      }
+    }
   }
-  decls.forEach((d) => {
-    rule.append(
-      postcss.decl({
-        prop: d.prop,
-        value: d.value,
-        important: d.important
-      })
-    );
-  });
+
+  return result;
 }

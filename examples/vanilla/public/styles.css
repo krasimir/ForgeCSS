@@ -19,6 +19,9 @@ main {
 .grey-bg {
   background-color: #d1d1d1;
 }
+.white-bg {
+  background-color: #fff;
+}
 .maxw300 {
   max-width: 300px;
 }
@@ -43,4 +46,10 @@ main {
 .blue {
   color: #0c5bb0;
   text-decoration: underline;
+}
+.green {
+  color: #009f00;
+}
+.transition-bg-color {
+  transition: background-color 800ms;
 }
