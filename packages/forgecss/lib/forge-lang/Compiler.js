@@ -42,7 +42,7 @@ export function astToRules(ast, options) {
           } else {
             mediaRule = cache[config.breakpoints[variantSelector]] = postcss.atRule({
               name: "media",
-              params: `all and ${config.breakpoints[variantSelector]}`
+              params: config.breakpoints[variantSelector]
             });
             rules.push(mediaRule);
           }

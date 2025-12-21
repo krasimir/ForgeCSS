@@ -245,9 +245,9 @@ export default function test() {
       config: {
         minify: true,
         breakpoints: {
-          desktop: "(min-width: 1024px)",
-          mobile: "(max-width: 1023px)",
-          portrait: "(orientation: portrait)"
+          desktop: "all and (min-width: 1024px)",
+          mobile: "all and (max-width: 1023px)",
+          portrait: "all and (orientation: portrait)"
         }
       }
     });

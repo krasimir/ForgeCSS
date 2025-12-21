@@ -14,9 +14,10 @@ const app = express();
 
 ForgeCSS({
   breakpoints: {
-    desktop: "min-width: 768px",
-    mobile: "max-width: 768px"
-  }
+    desktop: "all and (min-width: 768px)",
+    mobile: "all and (max-width: 768px)"
+  },
+  minify: false
 }).parseDirectory({
   dir: path.join(__dirname, "public"),
   output: path.join(__dirname, "public/forgecss.css"),
