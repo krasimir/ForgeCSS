@@ -22,8 +22,7 @@ export function astToRules(ast, options) {
         let classes = (node?.payload?.value ?? "").split(",").map((c) => c.trim()).filter(Boolean);
         let childRules;
         if (!node.payload.value && typeof node.payload === 'object') {
-          const result = astToRules([node.payload], options);
-          childRules = result.rules;
+          childRules = astToRules([node.payload], options);
         }
 
         // -------------------------------------------------------- pseudo

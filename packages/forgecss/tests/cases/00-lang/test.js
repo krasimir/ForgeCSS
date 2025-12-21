@@ -214,23 +214,23 @@ export default function test() {
 
   // testing the compiler
   const compilerCases = [
-    // {
-    //   usage: ["hover:mt1 fz2 active:mt1,fz2,fz3"],
-    //   classStr: ["hover_mt1 fz2 active_mt1 active_fz2 active_fz3"],
-    //   expectedCSS:
-    //     ".hover_mt1:hover{foo:bar}.active_mt1:active{foo:bar}.active_fz2:active{foo:bar}.active_fz3:active{foo:bar}"
-    // },
-    // {
-    //   usage: ["desktop:mt1 fz2 desktop:p1", "mt2 pt1 desktop:mt1,fz3 fz2", "mobile:br-l"],
-    //   classStr: ["desktop_mt1 fz2 desktop_p1", "mt2 pt1 desktop_mt1 desktop_fz3 fz2", "mobile_br-l"],
-    //   expectedCSS:
-    //     "@media all and (min-width:1024px){.desktop_mt1{foo:bar}.desktop_p1{foo:bar}.desktop_fz3{foo:bar}}@media all and (max-width:1023px){.mobile_br-l{foo:bar}}"
-    // },
-    // {
-    //   usage: ["[&:hover]:red,fz2 mt1", "[.dark &]:b"],
-    //   classStr: ["I-hover_red I-hover_fz2 mt1", "dark-I_b"],
-    //   expectedCSS: ".I-hover_red:hover{foo:bar}.I-hover_fz2:hover{foo:bar}.dark .dark-I_b{foo:bar}"
-    // },
+    {
+      usage: ["hover:mt1 fz2 active:mt1,fz2,fz3"],
+      classStr: ["hover_mt1 fz2 active_mt1 active_fz2 active_fz3"],
+      expectedCSS:
+        ".hover_mt1:hover{foo:bar}.active_mt1:active{foo:bar}.active_fz2:active{foo:bar}.active_fz3:active{foo:bar}"
+    },
+    {
+      usage: ["desktop:mt1 fz2 desktop:p1", "mt2 pt1 desktop:mt1,fz3 fz2", "mobile:br-l"],
+      classStr: ["desktop_mt1 fz2 desktop_p1", "mt2 pt1 desktop_mt1 desktop_fz3 fz2", "mobile_br-l"],
+      expectedCSS:
+        "@media all and (min-width:1024px){.desktop_mt1{foo:bar}.desktop_p1{foo:bar}.desktop_fz3{foo:bar}}@media all and (max-width:1023px){.mobile_br-l{foo:bar}}"
+    },
+    {
+      usage: ["[&:hover]:red,fz2 mt1", "[.dark &]:b"],
+      classStr: ["I-hover_red I-hover_fz2 mt1", "dark-I_b"],
+      expectedCSS: ".I-hover_red:hover{foo:bar}.I-hover_fz2:hover{foo:bar}.dark .dark-I_b{foo:bar}"
+    },
     {
       usage: ["desktop:[.dark &]:b desktop:mt1,p1"],
       classStr: ["desktop-dark-I_b desktop_mt1 desktop_p1"],
