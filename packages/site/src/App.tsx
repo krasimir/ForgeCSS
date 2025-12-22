@@ -69,7 +69,7 @@ function App() {
       </header>
       <main className="bg">
         <div className={fx("black-bg")}>
-          <div className={fx("p1 desktop:grid2,p3 gap1")}>
+          <div className={fx("p1 desktop:grid2,p3 gap1 mxauto")} style={{ maxWidth: '1700px'}}>
             <div className="flex-col minh500">
               <Tabs files={inputFiles} onClick={(i: number) => updateInputFiles({ type: "selected", payload: i })} />
               <Editor

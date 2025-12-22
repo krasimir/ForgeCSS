@@ -4,9 +4,7 @@ export const DEFAULT_FILES = [
     content: `<div class="mt1 d:mt2 [.dark &]:black-bg,white">
   <p>Hey world!</p>
   <p>
-    I'm <a class="hover:red" href="...">
-      ForgeCSS
-    </a>.
+    I'm <a class="hover:red" href="...">ForgeCSS</a>.
   </p>
 </div>`,
     selected: true,
