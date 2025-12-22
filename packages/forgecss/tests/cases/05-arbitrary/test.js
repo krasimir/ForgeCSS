@@ -1,5 +1,5 @@
 import { minifyCSS, expect } from "../../helpers.js";
-import fx from "../../../client/fx.js";
+import fx from "../../../lib/fx.js";
 import ForgeCSS from "../../../index.js";
 
 const CASES = [

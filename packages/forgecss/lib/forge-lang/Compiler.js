@@ -1,7 +1,7 @@
 import postcss from "postcss";
 import { NODE_TYPE, ALLOWED_PSEUDO_CLASSES } from "./constants.js";
 import { minifyCSS } from './utils.js'
-import { normalizeLabel } from "../../client/fx.js";
+import { normalizeLabel } from "../fx.js";
 
 export function astToRules(ast, options) {
   let rules = [];

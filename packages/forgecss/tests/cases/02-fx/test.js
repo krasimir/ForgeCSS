@@ -1,4 +1,4 @@
-import fx from '../../../client/fx.js';
+import fx from '../../../lib/fx.js';
 import { expect } from '../../helpers.js';
 
 const transformations = [

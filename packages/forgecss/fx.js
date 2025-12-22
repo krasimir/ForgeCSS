@@ -1,3 +1,3 @@
-import forgeCSSExpressionTransformer from "./client/fx.js";
+import forgeCSSExpressionTransformer from "./lib/fx.js";
 
 export default forgeCSSExpressionTransformer;

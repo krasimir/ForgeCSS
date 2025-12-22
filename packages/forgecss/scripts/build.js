@@ -11,15 +11,21 @@ const minify = true;
 
 (async function () {
   await esbuild.build({
-    entryPoints: [path.join(__dirname, "..", "client", "index.js")],
+    entryPoints: [path.join(__dirname, "..", "standalone", "client.js")],
+    bundle: true,
+    minify,
+    outfile: path.join(__dirname, "..", "dist", "client.min.js"),
+    platform: "browser",
+    sourcemap: false,
+    plugins: []
+  });
+  await esbuild.build({
+    entryPoints: [path.join(__dirname, "..", "standalone", "forgecss.js")],
     bundle: true,
     minify,
     outfile: path.join(__dirname, "..", "dist", "forgecss.min.js"),
     platform: "browser",
     sourcemap: false,
-    plugins: [],
-    define: {
-      __VERSION__: JSON.stringify(pkg.version)
-    }
+    plugins: []
   });
 })();

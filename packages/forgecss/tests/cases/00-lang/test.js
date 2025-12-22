@@ -1,6 +1,6 @@
 import { toAST } from "../../../lib/forge-lang/Parser.js";
 import { astToRules, rulesToCSS } from "../../../lib/forge-lang/Compiler.js";
-import fx from '../../../client/fx.js'
+import fx from '../../../lib/fx.js'
 
 const mockGetStyleByClassName = (_) => [{ prop: "foo", value: "bar", important: false }];
 

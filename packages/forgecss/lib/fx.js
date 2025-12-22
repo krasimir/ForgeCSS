@@ -1,18 +1,4 @@
-export default function fx(classes) {
-  return parseClass(classes).map((className) => {
-      let [label, rest] = splitClassName(className);
-      if (!label || label === "[true]") return rest;
-      if (label === "[false]") return false;
-      label = normalizeLabel(label);
-      return rest
-        .split(",")
-        .map((cls) => `${label}_${cls}`)
-        .join(" ");
-    })
-    .filter(Boolean)
-    .join(" ");
-}
-export function splitClassName(label) {
+function splitClassName(label) {
   const lastColonIndex = label.lastIndexOf(":");
   if (lastColonIndex === -1) {
     return [null, label];
@@ -21,16 +7,7 @@ export function splitClassName(label) {
   const rest = label.slice(lastColonIndex + 1);
   return [prefix, rest];
 }
-
-export function normalizeLabel(label) {
-  let normalized = label.trim();
-  normalized = normalized.replace(/[&]/g, "I");
-  normalized = normalized.replace(/[:| =]/g, "-");
-  normalized = normalized.replace(/[^a-zA-Z0-9_-]/g, '');
-  return normalized;
-}
-
-export function parseClass(str) {
+function parseClass(str) {
   const out = [];
   let buf = "";
 
@@ -71,4 +48,25 @@ export function parseClass(str) {
   if (buf) out.push(buf);
   return out;
 }
-
+export default function fx(classes) {
+  return parseClass(classes)
+    .map((className) => {
+      let [label, rest] = splitClassName(className);
+      if (!label || label === "[true]") return rest;
+      if (label === "[false]") return false;
+      label = normalizeLabel(label);
+      return rest
+        .split(",")
+        .map((cls) => `${label}_${cls}`)
+        .join(" ");
+    })
+    .filter(Boolean)
+    .join(" ");
+}
+export function normalizeLabel(label) {
+  let normalized = label.trim();
+  normalized = normalized.replace(/[&]/g, "I");
+  normalized = normalized.replace(/[:| =]/g, "-");
+  normalized = normalized.replace(/[^a-zA-Z0-9_-]/g, "");
+  return normalized;
+}

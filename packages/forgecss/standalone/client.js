@@ -1,4 +1,4 @@
-import fxFn from "./fx.js";
+import fxFn from "../lib/fx.js";
 
 function forgecss(root) {
   var rootNode = root || document;
