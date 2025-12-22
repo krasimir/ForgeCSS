@@ -33,3 +33,17 @@ export const DEFAULT_FILES = [
     type: "javascript"
   }
 ];
+export const DEFAULT_OUTPUT_FILES = [
+  {
+    filename: "page.html",
+    content: "",
+    selected: false,
+    type: "html"
+  },
+  {
+    filename: "forgecss.css",
+    content: "",
+    selected: true,
+    type: "css"
+  }
+];

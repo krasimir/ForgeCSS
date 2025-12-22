@@ -1,6 +1,7 @@
 :root {
   --background: #292929;
   --background-light: #595959;
+  --background-light2: #7b7b7b;
   --text: #f0f0f0;
 }
 * {
@@ -22,6 +23,9 @@ h1, h2, h3, p, ul {
 }
 
 .p1 { padding: 1rem; }
+.p2 { padding: 2rem; }
+.p3 { padding: 3rem; }
+.py2 { padding-top: 2rem; padding-bottom: 2rem; }
 .mt1 { margin-top: 1rem; }
 .mxauto { margin-left: auto; margin-right: auto; }
 .flex { display: flex; }
@@ -31,7 +35,10 @@ h1, h2, h3, p, ul {
 .span2 { grid-column: span 2; }
 .gap1 { gap: 1rem; }
 .maxw1000 { max-width: 1000px; }
-.minh400 { min-height: 400px; }
+.maxw1400 { max-width: 1400px; }
+.minh500 { min-height: 500px; }
+.bg { background: var(--background); }
+.black-bg { background: black; }
 
 .files {
   list-style: none;
@@ -39,11 +46,11 @@ h1, h2, h3, p, ul {
 }
 .files li {
   font-size: 0.8rem;
-  border-top: solid 2px var(--background-light);
-  border-right: solid 2px var(--background-light);
+  border-top: solid 2px var(--background-light2);
+  border-right: solid 2px var(--background-light2);
 }
 .files li:first-child {
-  border-left: solid 2px var(--background-light);
+  border-left: solid 2px var(--background-light2);
 }
 .files li button {
   display: block;
@@ -62,6 +69,7 @@ h1, h2, h3, p, ul {
 }
 .editor-wrapper {
   border: solid 2px var(--background-light);
+  background: var(--background);
 }
 .editor {
   width: 100%;

@@ -7,6 +7,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr
     }
+    .desktop_p3 {
+        padding: 3rem
+    }
 }
 @media all and (max-width: 899px) {
     .mobile_mt1 {

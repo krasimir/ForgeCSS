@@ -2,7 +2,8 @@ import { useEffect, useReducer, useState } from 'react';
 import './forgecss.css';
 import fx from 'forgecss/fx'
 import { Editor } from './Editor';
-import { DEFAULT_FILES } from './constants';
+import { DEFAULT_FILES, DEFAULT_OUTPUT_FILES } from './constants';
+import transformHtmlClassAttributes from './utils/transformHtmlClassAttributes';
 
 type File = {
   filename: string,
@@ -28,14 +29,15 @@ function filesReducer(state: File[], action: { type: string; payload?: any }) {
 }
 
 function App() {
-  const [files, updateFiles] = useReducer(filesReducer, DEFAULT_FILES);
-  const [compiledCss, setCompiledCss] = useState("");
-  const selected = files.filter((f) => f.selected)[0];
+  const [inputFiles, updateInputFiles] = useReducer(filesReducer, DEFAULT_FILES);
+  const [outputFiles, updateOutputFiles] = useReducer(filesReducer, DEFAULT_OUTPUT_FILES);
+  const selectedInput = inputFiles.filter((f) => f.selected)[0];
+  const selectedOutput = outputFiles.filter((f) => f.selected)[0];
 
   async function compile() {
-    const css = files.filter((f) => f.filename === "styles.css")[0].content;
-    const html = files.filter((f) => f.filename === "page.html")[0].content;
-    let config = files.filter((f) => f.filename === "forgecss.config.json")[0].content;
+    const css = inputFiles.filter((f) => f.filename === "styles.css")[0].content;
+    const html = inputFiles.filter((f) => f.filename === "page.html")[0].content;
+    let config = inputFiles.filter((f) => f.filename === "forgecss.config.json")[0].content;
     try {
       config = JSON.parse(config);
       // @ts-ignore
@@ -47,12 +49,16 @@ function App() {
     // @ts-ignore
     const forgecss = ForgeCSS(config);
     const result = await forgecss.parse({ css, html });
-    setCompiledCss(result);
+    updateOutputFiles({ type: "change", payload: ["forgecss.css", result] });
+    const normalizedHtml = transformHtmlClassAttributes(html, (className: string) => {
+      return fx(className)
+    });
+    updateOutputFiles({ type: "change", payload: ["page.html", normalizedHtml] });
   }
 
   useEffect(() => {
     compile();
-  }, [files])
+  }, [inputFiles])
 
   return (
     <>
@@ -61,22 +67,28 @@ function App() {
           <img src="/forgecss.svg" width="100" height="100" />
         </div>
       </header>
-      <main>
-        <div className={fx("maxw1000 mxauto")}>
-          <div className={fx("desktop:grid2 gap1 p1")}>
-            <div className="flex-col minh400">
-              <Tabs files={files} onClick={(i: number) => updateFiles({ type: "selected", payload: i })} />
+      <main className="bg">
+        <div className={fx("black-bg")}>
+          <div className={fx("p1 desktop:grid2,p3 gap1")}>
+            <div className="flex-col minh500">
+              <Tabs files={inputFiles} onClick={(i: number) => updateInputFiles({ type: "selected", payload: i })} />
               <Editor
-                code={selected.content}
-                language={selected.type}
+                code={selectedInput.content}
+                language={selectedInput.type}
                 className="flex1"
-                key={selected.filename}
-                onChange={(code) => updateFiles({ type: "change", payload: [selected.filename, code] })}
+                key={selectedInput.filename}
+                onChange={(code) => updateInputFiles({ type: "change", payload: [selectedInput.filename, code] })}
               />
             </div>
-            <div className={fx("flex-col minh400 mobile:mt1")}>
-              <p style={{ lineHeight: "20px" }}>Compiles to</p>
-              <Editor code={compiledCss} language="css" className="mt1 flex1" readonly key={compiledCss}/>
+            <div className={fx("flex-col minh500 mobile:mt1")}>
+              <Tabs files={outputFiles} onClick={(i: number) => updateOutputFiles({ type: "selected", payload: i })} />
+              <Editor
+                code={selectedOutput.content}
+                language={selectedOutput.type}
+                className="flex1"
+                readonly
+                key={selectedOutput.content}
+              />
             </div>
           </div>
         </div>
