@@ -1,10 +1,24 @@
 export const DEFAULT_FILES = [
-  { filename: "page.html", content: `<div class="mt1">Hello world</div>`, selected: true, type: "html" },
+  {
+    filename: "page.html",
+    content: `<div class="mt1 d:mt2 [.dark &]:black-bg,white">
+  <p>Hey world!</p>
+  <p>
+    I'm <a class="hover:red" href="...">
+      ForgeCSS
+    </a>.
+  </p>
+</div>`,
+    selected: true,
+    type: "html"
+  },
   {
     filename: "styles.css",
-    content: `mt1 {
-  margin-top: 1rem;
-}`,
+    content: `.mt1 { margin-top: 1rem; }
+.mt2 { margin-top: 2rem; }
+.white { color: #fff; }
+.black-bg { background-color: #000; }
+.red { color: #9f0000; }`,
     selected: false,
     type: "css"
   },
@@ -12,7 +26,7 @@ export const DEFAULT_FILES = [
     filename: "forgecss.config.json",
     content: `{
   "breakpoints": {
-    "desktop": "all and (min-width: 768px)"
+    "d": "all and (min-width: 768px)"
   }
 }`,
     selected: false,

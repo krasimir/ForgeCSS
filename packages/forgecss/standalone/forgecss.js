@@ -1,7 +1,14 @@
-import { extractStyles, getStylesByClassName, invalidateInventory, resolveApplys } from "./lib/inventory.js";
+import {
+  extractStyles,
+  getStylesByClassName,
+  invalidateInventory,
+  resolveApplys,
+  getInventory
+} from "./lib/inventory.js";
 import { invalidateUsageCache, findUsages, getUsages } from "./lib/usages.js";
 import { astToRules, rulesToCSS } from "../lib/forge-lang/Compiler.js";
 import { toAST } from "../lib/forge-lang/Parser.js";
+import fx from '../lib/fx.js'
 
 const DEFAULT_OPTIONS = {
   usageAttributes: ["class", "className"],
@@ -10,7 +17,7 @@ const DEFAULT_OPTIONS = {
   minify: true
 };
 
-export default function ForgeCSS(options) {
+function ForgeCSS(options) {
   const config = { ...DEFAULT_OPTIONS };
 
   config.breakpoints = Object.assign({}, DEFAULT_OPTIONS.breakpoints, options?.breakpoints ?? {});
@@ -71,6 +78,12 @@ export default function ForgeCSS(options) {
         console.error(`forgecss: error extracting usages.`, err);
       }
       return result();
-    }
+    },
+    getUsages,
+    getStylesByClassName,
+    getInventory,
+    fx
   };
 }
+
+window.ForgeCSS = ForgeCSS;

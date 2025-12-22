@@ -22,9 +22,15 @@ monaco.editor.defineTheme("fcss", {
     "editor.inactiveSelectionBackground": "#3a3d41"
   }
 });
-type EditorProps = { language: string; code: string; className?: string, onChange?: (code: string) => void };
+type EditorProps = {
+  language: string;
+  code: string;
+  className?: string,
+  onChange?: (code: string) => void,
+  readonly?: boolean
+};
 
-export function Editor({ language, code, className, onChange }: EditorProps) {
+export function Editor({ language, code, className, onChange, readonly }: EditorProps) {
   const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoEl = useRef(null);
 
@@ -49,17 +55,19 @@ export function Editor({ language, code, className, onChange }: EditorProps) {
             horizontal: "hidden"
           },
           overviewRulerLanes: 0,
-          fontSize: 16,
-          lineHeight: 26,
+          fontSize: 14,
+          lineHeight: 24,
           letterSpacing: 0.4,
           contextmenu: false,
           renderLineHighlight: "none",
           cursorBlinking: "smooth",
           automaticLayout: true,
           tabSize: 2,
-          insertSpaces: true
+          insertSpaces: true,
+          readOnly: readonly,
+          wordWrap: "on"
         });
-        editorInstance.onDidChangeModelContent((event) => {
+        editorInstance.onDidChangeModelContent(() => {
           onChange && onChange(editorInstance.getValue());
         });
         return editorInstance;

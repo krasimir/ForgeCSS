@@ -5,7 +5,7 @@ let INVENTORY = {};
 
 export async function extractStyles(css = null) {
   const content = css;
-  INVENTORY[filePath] = postcss.parse(content, { parser: safeParser });
+  INVENTORY['styles.css'] = postcss.parse(content, { parser: safeParser });
 }
 export function getStylesByClassName(selector) {
   const decls = [];
@@ -23,14 +23,8 @@ export function getStylesByClassName(selector) {
   }
   return decls;
 }
-export function invalidateInventory(filePath) {
-  if (!filePath) {
-    INVENTORY = {};
-    return;
-  }
-  if (INVENTORY[filePath]) {
-    delete INVENTORY[filePath];
-  }
+export function invalidateInventory() {
+  INVENTORY = {};
 }
 export function resolveApplys() {
   let resolvedApplies;
@@ -59,4 +53,7 @@ export function resolveApplys() {
     });
   });
   return resolvedApplies;
+}
+export function getInventory() {
+  return INVENTORY;
 }

@@ -3,14 +3,14 @@ import { visit } from "unist-util-visit";
 
 let USAGES = {};
 
-export async function findUsages(fileContent = null) {
+export async function findUsages(filePath, fileContent = null) {
   try {
     if (USAGES[filePath]) {
       // already processed
       return;
     }
     USAGES[filePath] = [];
-    const content = fileContent
+    const content = fileContent;
 
     const ast = fromHtml(content);
     visit(ast, "element", (node) => {
@@ -19,17 +19,11 @@ export async function findUsages(fileContent = null) {
       }
     });
   } catch (err) {
-    console.error(`forgecss: error processing file ${filePath.replace(process.cwd(), '')}`, err);
+    console.error(`forgecss: error processing file ${filePath}`, err);
   }
 }
-export function invalidateUsageCache(filePath) {
-  if (!filePath) {
-    USAGES = {};
-    return;
-  }
-  if (USAGES[filePath]) {
-    delete USAGES[filePath];
-  }
+export function invalidateUsageCache() {
+  USAGES = {};
 }
 export function getUsages() {
   return USAGES;
