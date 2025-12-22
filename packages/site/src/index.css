@@ -53,10 +53,12 @@ h1, h2, h3, p, ul {
   font-size: 1rem;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  opacity: 0.3;
 }
 .files li.selected button {
   background: var(--background-light);
   filter: drop-shadow(0px 2px 0px white);
+  opacity: 1;
 }
 .editor-wrapper {
   border: solid 2px var(--background-light);

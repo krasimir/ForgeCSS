@@ -2,7 +2,8 @@ export default {
   dir: "./src",
   output: "./src/forgecss.css",
   breakpoints: {
-    desktop: "all and (min-width: 768px)"
+    desktop: "all and (min-width: 900px)",
+    mobile: "all and (max-width: 899px)"
   },
   minify: false
 };

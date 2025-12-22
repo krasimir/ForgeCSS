@@ -1,6 +1,15 @@
 /* ForgeCSS auto-generated file */
-@media all and (min-width: 768px) {
+@media all and (min-width: 900px) {
     .desktop_mt1 {
+        margin-top: 1rem
+    }
+    .desktop_grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr
+    }
+}
+@media all and (max-width: 899px) {
+    .mobile_mt1 {
         margin-top: 1rem
     }
 }

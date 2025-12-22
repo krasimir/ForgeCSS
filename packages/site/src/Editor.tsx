@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "monaco-editor/esm/vs/basic-languages/html/html.contribution";
 import "monaco-editor/esm/vs/basic-languages/css/css.contribution";
+import "monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution";
 
 monaco.editor.defineTheme("fcss", {
   base: "vs-dark", // or 'vs'
@@ -21,8 +22,9 @@ monaco.editor.defineTheme("fcss", {
     "editor.inactiveSelectionBackground": "#3a3d41"
   }
 });
+type EditorProps = { language: string; code: string; className?: string, onChange?: (code: string) => void };
 
-export function Editor({ language, code, className }: { language: string; code: string; className?: string }) {
+export function Editor({ language, code, className, onChange }: EditorProps) {
   const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoEl = useRef(null);
 
@@ -33,7 +35,7 @@ export function Editor({ language, code, className }: { language: string; code: 
 
         monaco.editor.setTheme("fcss");
         
-        return monaco.editor.create(monacoEl.current!, {
+        const editorInstance = monaco.editor.create(monacoEl.current!, {
           value: code,
           language: language || "javascript",
           minimap: { enabled: false },
@@ -53,8 +55,14 @@ export function Editor({ language, code, className }: { language: string; code: 
           contextmenu: false,
           renderLineHighlight: "none",
           cursorBlinking: "smooth",
-          automaticLayout: true
+          automaticLayout: true,
+          tabSize: 2,
+          insertSpaces: true
         });
+        editorInstance.onDidChangeModelContent((event) => {
+          onChange && onChange(editorInstance.getValue());
+        });
+        return editorInstance;
       });
     }
 
