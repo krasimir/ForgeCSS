@@ -1,11 +1,9 @@
-import { readFile } from "fs/promises";
 import postcss from "postcss";
 import safeParser from "postcss-safe-parser";
 
 let INVENTORY = {};
 
-export async function extractStyles(filePath, css = null) {
-  const content = css !== null ? css : await readFile(filePath, "utf-8");
+export function extractStyles(filePath, content) {
   INVENTORY[filePath] = postcss.parse(content, { parser: safeParser });
 }
 export function getStylesByClassName(selector) {
@@ -63,4 +61,7 @@ export function resolveApplys() {
     });
   });
   return resolvedApplies;
+}
+export function getInventory() {
+  return INVENTORY;
 }

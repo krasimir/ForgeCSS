@@ -1,3 +1,4 @@
+import { JSXParser, readFileContent } from "../../../lib/helpers.js";
 import { invalidateInventory } from "../../../lib/inventory.js";
 import { findUsages, getUsages, invalidateUsageCache } from "../../../lib/usages.js";
 import { getPath, expect } from "../../helpers.js";
@@ -34,7 +35,7 @@ export default async function test() {
     const { file, expected } = cases[i];
     invalidateUsageCache();
     invalidateInventory();
-    await findUsages(file);
+    await findUsages(file, await readFileContent(file), JSXParser);
     if (!expect.deepEqual(getUsages(), expected)) {
       return false;
     }

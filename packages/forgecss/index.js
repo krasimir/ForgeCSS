@@ -6,7 +6,7 @@ import { extractStyles, getStylesByClassName, invalidateInventory, resolveApplys
 import { invalidateUsageCache, findUsages, getUsages } from "./lib/usages.js";
 import { astToRules, rulesToCSS } from './lib/forge-lang/Compiler.js';
 import { toAST } from './lib/forge-lang/Parser.js';
-import { getAllFiles } from './lib/helpers.js';
+import { getAllFiles, JSXParser, readFileContent } from './lib/helpers.js';
 
 const DEFAULT_OPTIONS = {
   inventoryFiles: ["css", "less", "scss"],
@@ -83,7 +83,7 @@ export default function ForgeCSS(options) {
         // filling the inventory
         let files = await getAllFiles(dir, config.inventoryFiles);
         for (let file of files) {
-          await extractStyles(file);
+          extractStyles(file, await readFileContent(file));
         }
       } catch (err) {
         console.error(`forgecss: error extracting styles.`, err);
@@ -92,7 +92,7 @@ export default function ForgeCSS(options) {
       try {
         let files = await getAllFiles(dir, config.usageFiles);
         for (let file of files) {
-          await findUsages(file);
+          await findUsages(file, await readFileContent(file), JSXParser);
         }
       } catch (err) {
         console.error(`forgecss: error extracting usages`, err);
@@ -111,7 +111,7 @@ export default function ForgeCSS(options) {
       // filling the inventory
       try {
         if (config.inventoryFiles.includes(ext)) {
-          await extractStyles(file);
+          extractStyles(file, await readFileContent(file));
         }
       } catch (err) {
         console.error(`forgecss: error extracting styles.`, err);
@@ -120,7 +120,7 @@ export default function ForgeCSS(options) {
       try {
         if (config.usageFiles.includes(ext)) {
           invalidateUsageCache(file);
-          await findUsages(file);
+          await findUsages(file, await readFileContent(file), JSXParser);
         }
       } catch (err) {
         console.error(`forgecss: error extracting usages.`, err);
@@ -142,7 +142,7 @@ export default function ForgeCSS(options) {
       invalidateUsageCache();
       // filling the inventory
       try {
-        await extractStyles("styles.css", css);
+        extractStyles("styles.css", css);
       } catch (err) {
         console.error(`forgecss: error extracting styles.`, err);
       }
@@ -151,7 +151,7 @@ export default function ForgeCSS(options) {
         if (html) {
           await findUsages("usage.html", html);
         } else if (jsx) {
-          await findUsages("usage.jsx", jsx);
+          await findUsages("usage.jsx", jsx, JSXParser);
         }
       } catch (err) {
         console.error(`forgecss: error extracting usages.`, err);
