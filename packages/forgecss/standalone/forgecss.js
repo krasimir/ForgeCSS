@@ -95,20 +95,6 @@ function ForgeCSS(options) {
         }
       }
     },
-    getPageCSS() {
-      let css = "";
-      for (const sheet of document.styleSheets) {
-        try {
-          for (const rule of sheet.cssRules) {
-            css += rule.cssText + "\n";
-          }
-        } catch {}
-      }
-      return css;
-    },
-    getPageHTML() {
-      return document.body.outerHTML;
-    },
     fx,
     getUsages,
     getStylesByClassName,

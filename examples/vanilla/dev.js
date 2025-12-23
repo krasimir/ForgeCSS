@@ -7,7 +7,7 @@ import ForgeCSS from "../../packages/forgecss/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const fxCode = fs.readFileSync(path.join(__dirname, "../../packages/forgecss/dist/client.min.js"), "utf-8");
+const fxCode = fs.readFileSync(path.join(__dirname, "../../packages/forgecss/dist/fx.min.js"), "utf-8");
 
 const PORT = 5173;
 const app = express();
@@ -24,7 +24,7 @@ ForgeCSS({
   watch: true
 });
 
-app.get("/forgecss.min.js", (req, res) => {
+app.get("/fx.min.js", (req, res) => {
   res.type("application/javascript");
   res.send(fxCode);
 });
