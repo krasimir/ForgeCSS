@@ -2,8 +2,8 @@
   "dir": "./src",
   "output": "./public/styles.css",
   "breakpoints": {
-    "desktop": "all and (min-width: 900px)",
-    "mobile": "all and (max-width: 899px)"
+    "desktop": "all and (min-width: 780px)",
+    "mobile": "all and (max-width: 779px)"
   },
   "bundleAll": true,
   "minify": true

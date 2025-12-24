@@ -37,10 +37,12 @@ h1, h2, h3 {
 
 .warning { color: var(--warning); }
 .success { color: var(--success); }
+.paler { color: var(--background-light2); }
 .p1 { padding: 1rem; }
 .p2 { padding: 2rem; }
 .p3 { padding: 3rem; }
 .pt2 { padding-top: 2rem; }
+.py1 { padding-top: 1rem; padding-bottom: 1rem; }
 .py2 { padding-top: 2rem; padding-bottom: 2rem; }
 .py3 { padding-top: 3rem; padding-bottom: 3rem; }
 .pl3 { padding-left: 3rem; }
@@ -138,9 +140,70 @@ hr {
   border: solid 2px var(--background-light);
   background: var(--background);
   height: 520px;
+  overflow-y: auto;
 }
 .editor {
   width: 100%;
   height: 100%;
   min-height: 400px;
+}
+
+/* Syntax Example */
+.syntax-example {
+  border: solid 1px var(--background-light);
+}
+.syntax-example > div > div {
+  position: relative;
+}
+.syntax-example > div > div:first-child {
+  border-right: dotted 1px var(--background-light);
+}
+.syntax-example .input::before,
+.syntax-example .output::before {
+  display: block;
+  font-size: 0.8rem;
+  position: absolute;
+  top: 14px;
+  line-height: 0;
+  color: var(--background-light2);
+}
+.syntax-example .input::before {
+  content: "classs=";
+  left: 14px;
+}
+.syntax-example .output::before {
+  content: ".css";
+  right: 14px;
+}
+.syntax-example > div:nth-child(2) {
+  border-top: dotted 1px var(--background-light);
+}
+.syntax-example code {
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--background-light);
+  padding: 0.2rem 0.2rem;
+  border-radius: 4px;
+}
+
+/* PrismJS Overrides */
+:not(pre)>code[class*=language-], pre[class*=language-] {
+  background: none !important;
+  font-size: 0.9rem !important;
+}
+.token.constant, .token.deleted, .token.property, .token.symbol, .token.tag {
+  color: #569cd6 !important;
+}
+.token.attr-name, .token.builtin, .token.char, .token.inserted, .token.selector, .token.string {
+  color: #9cdcfe !important;
+}
+.token.punctuation {
+  color: #808080 !important;
+}
+.token.atrule, .token.attr-value, .token.class-name, .token.function {
+  color: #ce9178 !important;
+}
+code {
+  white-space: break-spaces !important;
+  word-break: break-word !important;
 }

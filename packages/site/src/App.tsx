@@ -3,6 +3,7 @@ import fx from 'forgecss/fx'
 import { Editor } from './Editor';
 import { ACTUAL_HTML_FILE, DEFAULT_FILES, DEFAULT_OUTPUT_FILES, TOTAL_CSS_FILE } from './constants';
 import transformHtmlClassAttributes from './utils/transformHtmlClassAttributes';
+import Syntax from './Syntax';
 
 type File = {
   filename: string,
@@ -67,19 +68,26 @@ function App() {
     compile();
   }, [inputFiles])
 
+  useEffect(() => {
+    setTimeout(() => {
+      // @ts-ignore
+      Prism.highlightAll();
+    }, 0);
+  }, [outputFiles])
+
   return (
     <>
       <header>
         <div className={fx("maxw1000 mxauto p1 desktop:py3")}>
           <div className="flex-center gap1">
-            <img src="/forgecss.svg" width="100" height="100" alt="ForgeCSS logo"/>
+            <img src="/forgecss.svg" width="100" height="100" alt="ForgeCSS logo" />
           </div>
         </div>
       </header>
       <section className={fx("hero py3 mobile:p1")}>
         <div className={fx("maxw800 mxauto grid2x1 gap2 mobile:b")}>
           <div>
-            <h1 className={fx("fz2 mobile:mt1 desktop:fz3")}>A compiler for utility classes.</h1>
+            <h1 className={fx("fz2 mobile:mt1 desktop:fz3")}>ForgeCSS is a compiler for utility CSS classes.</h1>
             <p className={fx("fz15 mt1 desktop:mt2")}>
               <span className="success">✔</span> Compiler that understands CSS class syntax
               <br />
@@ -130,10 +138,16 @@ function App() {
           </div>
         </div>
         <div style={{ maxWidth: "800px" }} className="mxauto mt3">
-          <img src="/forgecss-diagram.svg" className={fx("hero-image b mxauto")} style={{ maxWidth: "100%" }} alt="ForgeCSS how-it-works diagram" />
+          <img
+            src="/forgecss-diagram.svg"
+            className={fx("hero-image b mxauto")}
+            style={{ maxWidth: "100%" }}
+            alt="ForgeCSS how-it-works diagram"
+          />
         </div>
       </section>
-      <main className="black-bg" id="playground">
+      <Syntax />
+      <section className="black-bg" id="playground">
         <h2 className={fx("pt2 tac fz2 desktop:fz3")}>Test it out!</h2>
         <div>
           <div className={fx("p1 desktop:grid2,pt3,pl3,pr3 gap1 mxauto")} style={{ maxWidth: "1700px" }}>
@@ -151,14 +165,18 @@ function App() {
             </div>
             <div className={fx("flex-col mobile:mt1")}>
               <Tabs files={outputFiles} onClick={(i: number) => updateOutputFiles({ type: "selected", payload: i })} />
-              <Editor code={selectedOutput.content} language={selectedOutput.type} readonly />
+              <div className="editor-wrapper">
+                <pre>
+                  <code className={`language-${selectedOutput.type}`}>{selectedOutput.content}</code>
+                </pre>
+              </div>
               <div className={fx("flex-center mt1 mobile:hidden")}>
                 <img src="/output.svg" width="100" />
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </>
   );
 }
