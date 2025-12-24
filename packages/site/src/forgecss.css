@@ -4,6 +4,9 @@
         padding-top: 3rem;
         padding-bottom: 3rem
     }
+    .desktop_fz3 {
+        font-size: 3rem
+    }
     .desktop_grid2 {
         display: grid;
         grid-template-columns: 1fr 1fr
@@ -19,6 +22,15 @@
     }
 }
 @media all and (max-width: 899px) {
+    .mobile_p1 {
+        padding: 1rem
+    }
+    .mobile_b {
+        display: block
+    }
+    .mobile_mt3 {
+        margin-top: 3rem
+    }
     .mobile_hidden {
         display: none
     }

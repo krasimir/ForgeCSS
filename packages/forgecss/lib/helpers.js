@@ -77,7 +77,7 @@ export async function JSXParser(content, USAGES, filePath) {
       }
     }
   }
-  // writeFile(process.cwd() + '/ast.json', JSON.stringify(ast, null, 2), 'utf-8').catch(() => {});
+
   traverseASTNode(ast, {
     JSXExpressionContainer(node) {
       if (node?.expression?.callee?.value === FUNC_NAME && node?.expression?.arguments) {

@@ -34,13 +34,13 @@ export const DEFAULT_FILES = [
 export const ACTUAL_HTML_FILE = {
   filename: "page.html",
   content: "",
-  selected: false,
+  selected: true,
   type: "html"
 };
 export const TOTAL_CSS_FILE = {
-  filename: "forgecss.css",
+  filename: "styles.css",
   content: "",
-  selected: true,
+  selected: false,
   type: "css"
 };
 export const DEFAULT_OUTPUT_FILES = [ACTUAL_HTML_FILE, TOTAL_CSS_FILE];
