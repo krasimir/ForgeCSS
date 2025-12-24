@@ -6,6 +6,7 @@ import { extractStyles, getStylesByClassName, invalidateInventory, resolveApplys
 import { invalidateUsageCache, findUsages, getUsages } from "./lib/usages.js";
 import { astToRules, rulesToCSS } from './lib/forge-lang/Compiler.js';
 import { toAST } from './lib/forge-lang/Parser.js';
+import { minifyCSS } from './lib/forge-lang/utils.js';
 import { getAllFiles, JSXParser, readFileContent } from './lib/helpers.js';
 import { DEFAULT_OPTIONS } from './lib/constants.js';
 
@@ -35,16 +36,18 @@ export default function ForgeCSS(options) {
         config
       });
       rules.push(resolveApplys());
-      const css = rulesToCSS(rules.filter(Boolean), config);
+      let css = rulesToCSS(rules.filter(Boolean), config);
+      if (config.bundleAll) {
+        css = getAllCSS() + "\n" + css;
+      }
+      if (config.minify) {
+        css = minifyCSS(css);
+      }
       if (output) {
-        await writeFile(output, `/* ForgeCSS auto-generated file */\n${css}`, "utf-8");
+        await writeFile(output, css, "utf-8");
       }
       if (config.verbose) {
         console.log("forgecss: output CSS generated successfully.");
-      }
-      if (config.bundleAll) {
-        const inventoryCSS = getAllCSS();
-        return inventoryCSS + "\n" + css;
       }
       return css;
     } catch (err) {

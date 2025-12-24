@@ -117,6 +117,6 @@ export function astToRules(ast, options) {
   return rules;
 }
 
-export function rulesToCSS(rules, { minify } = { minify: true }) {
-  return minify ? minifyCSS(rules.map((r) => r.toString()).join("")) : rules.map((r) => r.toString()).join("\n");
+export function rulesToCSS(rules) {
+  return rules.map((r) => r.toString()).join("\n");
 }

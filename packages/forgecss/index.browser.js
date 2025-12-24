@@ -19,6 +19,7 @@ function ForgeCSS(options) {
   config.usageAttributes = options?.usageAttributes ?? DEFAULT_OPTIONS.usageAttributes;
   config.verbose = options?.verbose ?? DEFAULT_OPTIONS.verbose;
   config.minify = options?.minify ?? DEFAULT_OPTIONS.minify;
+  config.bundleAll = options?.bundleAll ?? DEFAULT_OPTIONS.bundleAll;
 
   async function result() {
     try {
@@ -35,13 +36,15 @@ function ForgeCSS(options) {
         config
       });
       rules.push(resolveApplys());
-      const css = rulesToCSS(rules.filter(Boolean), config);
+      let css = rulesToCSS(rules.filter(Boolean), config);
+      if (config.bundleAll) {
+        css = getAllCSS() + "\n" + css;
+      }
+      if (config.minify) {
+        css = minifyCSS(css);
+      }
       if (config.verbose) {
         console.log("forgecss: output CSS generated successfully.");
-      }
-      if (config.bundleAll) {
-        const inventoryCSS = getAllCSS();
-        return inventoryCSS + "\n" + css;
       }
       return css;
     } catch (err) {

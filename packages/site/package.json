@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "get-standalone": "cp ../forgecss/dist/forgecss.min.js ./public/forgecss.min.js",
+    "get-standalone": "cp ../forgecss/dist/standalone.min.js ./public/standalone.min.js",
     "dev": "npm run get-standalone && concurrently \"vite\" \"forgecss -w -v\"",
     "build": "npm run get-standalone && forgecss --verbose && tsc -b && vite build",
     "lint": "eslint .",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "concurrently": "^9.2.1",
-    "forgecss": "^0.11.0",
+    "forgecss": "^0.14.0",
     "monaco-editor": "^0.32.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

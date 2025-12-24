@@ -1,5 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
-import './forgecss.css';
+import { useEffect, useReducer } from 'react';
 import fx from 'forgecss/fx'
 import { Editor } from './Editor';
 import { ACTUAL_HTML_FILE, DEFAULT_FILES, DEFAULT_OUTPUT_FILES, TOTAL_CSS_FILE } from './constants';
@@ -51,7 +50,7 @@ function App() {
     const result = await forgecss.parse({ css, html });
     updateOutputFiles({
       type: "change",
-      payload: [TOTAL_CSS_FILE.filename, `${css}\n${result}`]
+      payload: [TOTAL_CSS_FILE.filename, result]
     });
     updateOutputFiles({
       type: "change",
@@ -74,32 +73,25 @@ function App() {
         <div className={fx("maxw1000 mxauto p1 desktop:py3")}>
           <div className="flex-center gap1">
             <img src="/forgecss.svg" width="100" height="100" />
-            <h1 className="fz1">
-              Compiler for
-              <br />
-              utility-first CSS classes
-            </h1>
           </div>
         </div>
       </header>
       <section className={fx("hero py3 mobile:p1")}>
         <div className={fx("maxw800 mxauto grid2x1 gap2 mobile:b")}>
           <div>
-            <h2 className={fx("fz2 desktop:fz3")}>ForgeCSS doesn’t replace CSS - it compiles it.</h2>
+            <h1 className={fx("fz2 desktop:fz3")}>A compiler for utility classes.</h1>
             <p className="fz15 mt3">
-              <span className="success">✔</span> CSS compiler that understands class syntax, not just class names.{" "}
-              <small className="b fw100">
-                <span className="success">✔</span> It parses class strings, applies rules and structure, and compiles
+              <span className="success">✔</span> CSS compiler that understands class syntax<br />
+              <span className="success">✔</span> It parses class strings, applies rules and structure, and compiles
                 them into CSS.
-              </small>
             </p>
             <p className="mt1">
               What it isn’t!
               <small className="b">
-                <span className="warning">✖</span> Not a CSS framework
+                <span className="warning">✖</span> Not a CSS framework or a transformer
               </small>
               <small className="b">
-                <span className="warning">✖</span> Not utilities library
+                <span className="warning">✖</span> Not utility library
               </small>
               <small className="b">
                 <span className="warning">✖</span> Not a Tailwind plugin
@@ -127,7 +119,7 @@ function App() {
         </div>
       </section>
       <main className="black-bg" id="playground">
-        <h3 className={fx("pt2 tac fz2 desktop:fz3")}>Test it out!</h3>
+        <h2 className={fx("pt2 tac fz2 desktop:fz3")}>Test it out!</h2>
         <div>
           <div className={fx("p1 desktop:grid2,pt3,pl3,pr3 gap1 mxauto")} style={{ maxWidth: "1700px" }}>
             <div className="flex-col">

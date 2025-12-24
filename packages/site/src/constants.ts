@@ -25,7 +25,8 @@ export const DEFAULT_FILES = [
     content: `{
   "breakpoints": {
     "d": "all and (min-width: 768px)"
-  }
+  },
+  "bundleAll": true
 }`,
     selected: false,
     type: "javascript"

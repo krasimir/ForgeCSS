@@ -1,6 +1,7 @@
 import { toAST } from "../../../lib/forge-lang/Parser.js";
 import { astToRules, rulesToCSS } from "../../../lib/forge-lang/Compiler.js";
 import fx from '../../../lib/fx.js'
+import {minifyCSS} from "../../../lib/forge-lang/utils.js";
 
 const mockGetStyleByClassName = (_) => [{ prop: "foo", value: "bar", important: false }];
 
@@ -252,7 +253,7 @@ export default function test() {
       }
     });
     let usages = testCase.usage;
-    const css = rulesToCSS(rules, { minify: true });
+    const css = minifyCSS(rulesToCSS(rules, { minify: true }));
     if (!usages.every((usage, i) => {
       if (fx(usage) !== testCase.classStr[i]) {
         console.error(`#${i} Compiler Test failed (classStr):`);
