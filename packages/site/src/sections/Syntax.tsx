@@ -161,12 +161,12 @@ const EXAMPLES = [
 
 export default function Syntax() {
   return (
-    <div id="syntax" className="bg-black">
-      <h2 className={fx("pt2 tac fz2 desktop:fz3")}>Syntax</h2>
+    <div id="syntax" className="bg-black py3">
+      <h2 className={fx("tac fz2 desktop:fz3")}>Syntax</h2>
       {EXAMPLES.map((example, i) => {
         return (
           <div className="maxw800 mxauto mt2 syntax-example border-l border-t" key={i}>
-            <div className={fx("grid2")}>
+            <div className={fx("grid2 mobile:b")}>
               <div className="tac p1 input border-r flex-center fz2" data-label="class=">
                 {example.input}
               </div>
@@ -177,7 +177,7 @@ export default function Syntax() {
                 <div className="p1 output bg-dark bgborder-t" data-label=".css">
                   {example.outputCSS}
                 </div>
-                <div className="p1 border-t border-b paler">
+                <div className="p1 border-t border-b">
                   <small>{example.text}</small>
                 </div>
               </div>

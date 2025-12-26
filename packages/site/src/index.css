@@ -17,7 +17,7 @@
 body {
   background: var(--background);
   color: var(--text);
-  font-family: "Arimo", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
@@ -40,10 +40,15 @@ h1, h2, h3 {
   font-weight: 400;
   font-style: normal;
 }
+a {
+  color: var(--text);
+  text-decoration: underline;
+}
 
 .warning { color: var(--warning); }
 .success { color: var(--success); }
-.paler { color: var(--background-light2); }
+.paler { color: var(--background-light2) !important; }
+.p05 { padding: 0.5rem; }
 .p1 { padding: 1rem; }
 .p2 { padding: 2rem; }
 .p3 { padding: 3rem; }
@@ -64,6 +69,8 @@ h1, h2, h3 {
 .mxauto { margin-left: auto; margin-right: auto; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; }
 .grid2x1 { display: grid; grid-template-columns: 2fr 1fr; }
+.grid1x2 { display: grid; grid-template-columns: 1fr 2fr; }
+.grid1x1x2 { display: grid; grid-template-columns: 1fr 1fr 2fr; }
 .b { display: block; }
 .flex { display: flex; }
 .flex-center { display: flex; align-items: center; justify-content: center; }
@@ -79,6 +86,7 @@ h1, h2, h3 {
 .maxw1000 { max-width: 1000px; }
 .maxw1400 { max-width: 1400px; }
 .minh500 { min-height: 500px; }
+.fz09 { font-size: 0.9rem; }
 .fz1 { font-size: 1rem; }
 .fz15 { font-size: 1.5rem; }
 .fz2 { font-size: 2rem; }
@@ -119,10 +127,12 @@ header {
   background: radial-gradient(125% 125% at 50% 10%, #595959 40%, #000000 100%);
 }
 hr {
-  border-top: solid 4px #000;
+  border-top: solid 4px var(--background-light2);
   border-bottom: none;
   border-left: none;
   border-right: none;;
+  max-width: 600px;
+  margin: 2rem auto;
 }
 .files {
   list-style: none;

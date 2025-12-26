@@ -45,7 +45,14 @@ export default function GettingStarted() {
             <code className="language-javascript">{">"} npx forgecss</code>
           </pre>
         </div>
-        <p>
+        <p>or</p>
+        <div className="my1">
+          <pre>
+            <code className="language-javascript">{">"} npx forgecss -w</code>
+          </pre>
+        </div>
+        <p>if you want to run ForgeCSS in watch mode.</p>
+        <div className="mt1">
           This command will read your source files.
           <ul>
             <li>
@@ -59,10 +66,10 @@ export default function GettingStarted() {
               <code>./public/styles.css</code> in this case).
             </li>
           </ul>
-        </p>
+        </div>
         <p>
-          One last thing - to get proper class name strings you have to use the <code>fx</code> (ForgeCSS expression)
-          helper function:
+          One last thing - since ForgeCSS is not touching your source files you have to use the <code>fx</code>{" "}
+          (ForgeCSS expression) helper function:
         </p>
         <div className="my1">
           <pre>
@@ -71,7 +78,7 @@ export default function GettingStarted() {
 
 function MyComponent() {
   return (
-    <div className={fx("p2 bg-blue mobile:p1")}>
+    <div className={fx("p2 mobile:p1")}>
       Hello, ForgeCSS!
     </div>
   );
@@ -79,6 +86,10 @@ function MyComponent() {
             </code>
           </pre>
           <p>
+            This is so you get the proper class name strings transformed. For example <code>p2 mobile:p1</code>{" "}
+            to <br /><code>p2 mobile_p1</code>.
+          </p>
+          <p className="mt1">
             If you don't use React there is a <code>fx</code> function that you can use in the browser:
           </p>
           <pre>

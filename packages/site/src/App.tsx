@@ -2,6 +2,7 @@ import fx from 'forgecss/fx'
 import Syntax from './sections/Syntax';
 import Playground from './sections/Playground';
 import GettingStarted from './sections/GettingStarted';
+import API from './sections/API';
 
 function App() {
   return (
@@ -57,7 +58,7 @@ function App() {
               </a>
               <a href="#api" className="flex-center gap05">
                 <img src="/sliders.svg" width="20" />
-                API
+                API & Configuration
               </a>
               <a href="#playground" className="flex-center gap05">
                 <img src="/code.svg" width="20" />
@@ -81,7 +82,21 @@ function App() {
       </section>
       <Syntax />
       <GettingStarted />
+      <API />
       <Playground />
+      <footer className="border-t">
+        <div className={fx("maxw1000 mxauto p1 desktop:py3 tac fz15")}>
+          <p>
+            Made with ❤️ by{" "}
+            <a href="https://krasimir.dev" target="_blank">
+              Krasimir Tsonev
+            </a>
+            <small className="b mt2">
+              <a href="https://github.com/krasimir/forgecss" className="paler">github.com/krasimir/forgecss</a>
+            </small>
+          </p>
+        </div>
+      </footer>
     </>
   );
 }
