@@ -85,6 +85,10 @@ export function astToRules(ast, options) {
           })
         }
         break;
+        case NODE_TYPE.CALL:
+          console.log(options);
+          console.log(node);
+        break;
     }
   }
 
