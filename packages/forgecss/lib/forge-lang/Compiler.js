@@ -1,16 +1,15 @@
 import postcss from "postcss";
 import { NODE_TYPE, ALLOWED_PSEUDO_CLASSES } from "./constants.js";
-import { minifyCSS } from './utils.js'
 import { normalizeLabel } from "../fx.js";
 
 export function astToRules(ast, options) {
   let rules = [];
   const { getStylesByClassName, cache = {}, config } = options
-  // console.log(
-  //   "\n====================================================================== ^\n",
-  //   JSON.stringify(ast, null, 2),
-  //   "\n====================================================================== $\n"
-  // );
+  console.log(
+    "\n====================================================================== ^\n",
+    JSON.stringify(ast, null, 2),
+    "\n====================================================================== $\n"
+  );
 
   for(let node of ast) {
     switch (node.type) {
