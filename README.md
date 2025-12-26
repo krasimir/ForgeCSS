@@ -1,10 +1,12 @@
-<img src="./packages/site/public/forgecss.svg" width="300" align="center" />
+<p align="center">
+  <img src="./packages/site/public/forgecss.svg" width="200" />
+</p>
 
 # ForgeCSS
 
 ForgeCSS turns strings into fully generated responsive CSS using a custom DSL.
 
-How and why + documentation here http://forgecss.krasimirtsonev.com
+How and why + documentation here https://forgecss.krasimirtsonev.com
 
 ## Getting started
 
@@ -74,3 +76,7 @@ If you don't use React there is an `fx` function that you can use in the browser
 Once you include that file on your page you'll get the `class` attributes converted automatically.  
 If you later want to trigger that logic manually you can execute the globally available function `fxAll`.  
 Internally it calls `fx`, which is also available globally for manual usage.
+
+## API and configuration
+
+Refer to the official page for the CLI and JavaScript API docs: https://forgecss.krasimirtsonev.com
