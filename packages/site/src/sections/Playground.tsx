@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import fx from "azbuka/fx";
+import az from "azbuka/az";
 import { Editor } from "../Editor";
 import { ACTUAL_HTML_FILE, DEFAULT_FILES, DEFAULT_OUTPUT_FILES, TOTAL_CSS_FILE } from "../constants";
 import transformHtmlClassAttributes from "../utils/transformHtmlClassAttributes";

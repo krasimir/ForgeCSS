@@ -1,4 +1,4 @@
-import fx from 'azbuka/az'
+import az from 'azbuka/az'
 import Syntax from './sections/Syntax';
 import Playground from './sections/Playground';
 import GettingStarted from './sections/GettingStarted';

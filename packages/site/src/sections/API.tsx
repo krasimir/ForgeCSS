@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import fx from 'azbuka/fx';
+import az from 'azbuka/az';
 
 const CONFIG = [
   { name: "dir", type: <strong>required</strong>, description: "The directory of your source files (CSS and markup)." },

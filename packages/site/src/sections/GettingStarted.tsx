@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import fx from 'azbuka/fx';
+import az from 'azbuka/az';
 
 export default function GettingStarted() {
   useEffect(() => {

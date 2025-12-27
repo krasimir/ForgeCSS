@@ -1,4 +1,4 @@
-import fx from "azbuka/fx";
+import az from "azbuka/az";
 
 const EXAMPLES = [
   {
